@@ -22,8 +22,10 @@
 </template>
 
 <script lang="ts">
+import TableHeader from "@/components/core/TableHeader.vue";
 import Vue from "vue";
 export default Vue.extend({
+  components: { TableHeader },
     data:()=>({
         search:''
     })
