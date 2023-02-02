@@ -1,10 +1,8 @@
 import Axios, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios'
-import Account from '@/services/account'
 
 
 const _headers: AxiosRequestHeaders = {
     "Content-Type": "application/json",
-    "Auth-Token": Account.authenticationToken(),
 }
 
 const _confing: AxiosRequestConfig = {

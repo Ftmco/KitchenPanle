@@ -48,6 +48,16 @@ const routes: Array<RouteConfig> = [
                     hasBack: true
                 }),
             },
+            {
+                path: 'inventory',
+                name: 'Inventory',
+                component: () => import("@/pages/home/InventoryPage.vue"),
+                meta: (route: Route) => ({
+                    title: 'موجودی',
+                    route,
+                    hasBack: true
+                }),
+            },
         ]
     },
 ];

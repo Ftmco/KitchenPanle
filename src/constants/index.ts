@@ -42,6 +42,12 @@ export const navigationItems = [
                 title: 'موجودی',
                 icon: 'mdi-list-box-outline',
                 to: '/tabs/inventory'
+            },
+            {
+                id: 33,
+                title: 'نوع موجودی ها',
+                icon: 'mdi-variable',
+                to: '/tabs/inventoryType'
             }
         ],
     },
@@ -62,3 +68,18 @@ export const rules = {
     password: (value: string) => !!value && (value.length > 5 || 'Password required more than 6 characters'),
     requireSelect: (items: any) => items.length > 0 || 'Required.',
 }
+
+export const status = [
+    {
+        title:'فعال',
+        value:0,
+    },
+    {
+        title:'غیر فعال',
+        value:1,
+    },
+    {
+        title:'حذف شده',
+        value:2,
+    }
+]

@@ -18,9 +18,6 @@
 <script lang="ts">
 import Vue from "vue";
 import {  navigationItems } from "@/constants/";
-import Account from "@/services/account";
-import { createFileAddress } from "@/services/file";
-import { getProfile } from "fteam.identity.package/src/Account/profile";
 import NavigationListItems from "./NavigationListItems.vue";
 
 export default Vue.extend({
@@ -46,7 +43,6 @@ export default Vue.extend({
         this.$vuetify.theme.dark ? "Dark" : "Ligth"
       );
     },
-    createFileAddress,
   },
   components: { NavigationListItems },
 });

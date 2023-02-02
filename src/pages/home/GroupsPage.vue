@@ -17,7 +17,9 @@
           ></v-text-field>
         </template>
       </table-header>
-      <br />
+    </v-card>
+    <br />
+    <v-card elevation="4" class="rounded-lg">
       <v-data-table
         :loading="inLoading"
         :headers="headers"
@@ -133,7 +135,7 @@ export default Vue.extend({
           }
         })
         .finally(() => (this.inLoading = false));
-    },   
+    },
     newGroup() {
       const create: Dialog = {
         title: "گروه جدید",
