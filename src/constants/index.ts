@@ -51,6 +51,12 @@ export const navigationItems = [
             }
         ],
     },
+    {
+        id: 4,
+        title: 'یادداشت',
+        icon: 'mdi-note',
+        to: '/tabs/notes'
+    },
 ]
 
 export const messages = {
