@@ -58,6 +58,16 @@ const routes: Array<RouteConfig> = [
                     hasBack: true
                 }),
             },
+            {
+                path: 'notes',
+                name: 'Notes',
+                component: () => import("@/pages/home/NotesPage.vue"),
+                meta: (route: Route) => ({
+                    title: 'یادداشت ها',
+                    route,
+                    hasBack: true
+                }),
+            },
         ]
     },
 ];
