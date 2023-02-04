@@ -11,3 +11,9 @@ export const note = {
     upsert: "/Note/Upsert",
     delete: (id: string) => `/Note/Delete?id=${id}`
 }
+
+export const type = {
+    types: (page: number, count: number) => `/MeasurementType/Types?page=${page}&count=${count}`,
+    upsert: "/MeasurementType/Upsert",
+    delete: (id: string) => `/MeasurementType/Delete?id=${id}`
+}
