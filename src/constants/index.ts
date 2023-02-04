@@ -70,9 +70,8 @@ export const messages = {
 }
 
 export const rules = {
-    require: (value: string) => !!value || 'Required.',
-    password: (value: string) => !!value && (value.length > 5 || 'Password required more than 6 characters'),
-    requireSelect: (items: any) => items.length > 0 || 'Required.',
+    require: (value: string) => !!value || 'لطفا فیلد را پر کنید.',
+    requireSelect: (items: any) => items.length > 0 || 'لطفا یک مورد را انتخاب کنید.',
 }
 
 export const status = [
