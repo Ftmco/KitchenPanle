@@ -3,7 +3,7 @@
     <v-card elevation="4" class="rounded-lg">
       <table-header
         title="غذا ها"
-        newTitle="گروه جدید"
+        newTitle="غذای جدید"
         :newAction="() => {}"
         :reloadAction="() => {}"
       >
@@ -18,7 +18,7 @@
         </template>
       </table-header>
     </v-card>
-    <br>
+    <br />
     <v-card elevation="4" class="rounded-lg">
       <v-data-table
         :loading="isLoading"
@@ -33,13 +33,13 @@
         <template v-slot:item.actions="{ item }">
           <v-row>
             <v-col>
-              <v-btn block color="warning" text >
+              <v-btn block color="warning" text>
                 ویرایش
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </v-col>
             <v-col>
-              <v-btn block color="error" text >
+              <v-btn block color="error" text>
                 حذف
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
@@ -63,10 +63,35 @@ export default Vue.extend({
   data: () => ({
     search: "",
     isLoading: true,
-    headers: [] as Array<TableHeaderModel>,
+    headers: [
+      {
+        text: "نام",
+        value: "name",
+        align: "start",
+        sortable: true,
+      },
+      {
+        text: "تاریخ ایجاد",
+        value: "createDate",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "وضعیت",
+        value: "status",
+        align: "center",
+        sortable: true,
+      },
+      {
+        text: "",
+        value: "actions",
+        align: "center",
+        sortable: false,
+      },
+    ] as Array<TableHeaderModel>,
     foods: [],
-    page:1,
-    pageCount:1
+    page: 1,
+    pageCount: 1,
   }),
 });
 </script>
