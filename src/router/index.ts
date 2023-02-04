@@ -59,6 +59,16 @@ const routes: Array<RouteConfig> = [
                 }),
             },
             {
+                path: 'inventoryType',
+                name: 'InventoryType',
+                component: () => import("@/pages/home/TypesPage.vue"),
+                meta: (route: Route) => ({
+                    title: 'نوع ها',
+                    route,
+                    hasBack: true
+                }),
+            },
+            {
                 path: 'notes',
                 name: 'Notes',
                 component: () => import("@/pages/home/NotesPage.vue"),
