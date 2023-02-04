@@ -5,3 +5,9 @@ export const group = {
     upsert: "/Group/Upsert",
     delete: (id: string) => `/Group/Delete?id=${id}`
 }
+
+export const note = {
+    notes: (page: number, count: number) => `/Note/Notes?page=${page}&count=${count}`,
+    upsert: "/Note/Upsert",
+    delete: (id: string) => `/Note/Delete?id=${id}`
+}
