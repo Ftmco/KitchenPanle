@@ -16,25 +16,20 @@ export const base = [
     },
 ]
 
-export const store = [
+export const importance = [
     {
-        status: 0,
-        title: 'فعال',
-        color: 'success'
+        status:0,
+        title:'بسیار',
+        color:'error'
     },
     {
-        status: 1,
-        title: 'غیر فعال',
-        color: 'info'
+        status:1,
+        title:'متوسط',
+        color:'warning'
     },
     {
-        status: 2,
-        title: 'حذف شده',
-        color: 'error'
+        status:2,
+        title:'کم',
+        color:'success'
     },
-    {
-        status: 3,
-        title: 'درخواست ثبت',
-        color: 'indego',
-    }
-];
+]
