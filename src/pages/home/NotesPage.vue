@@ -38,13 +38,13 @@
         <template v-slot:item.actions="{ item }">
           <v-row>
             <v-col>
-              <v-btn block color="warning" text>
+              <v-btn block color="warning" text @click="editNote(item)">
                 ویرایش
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </v-col>
             <v-col>
-              <v-btn block color="error" text>
+              <v-btn block color="error" text @click="removeNote(item)">
                 حذف
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
@@ -60,13 +60,13 @@
 </template>
 
 <script lang="ts">
-import { getNotes } from "@/api/apis/note.api";
+import { deleteNote, getNotes } from "@/api/apis/note.api";
 import TableHeader from "@/components/core/TableHeader.vue";
-import { Dialog, TableHeaderModel } from "@/components/models";
+import { ConfirmDialog, Dialog, TableHeaderModel } from "@/components/models";
 import { getNoteImportanceObj } from "@/services/status";
-import { DIALOG } from "@/store/store_types";
+import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default Vue.extend({
   components: { TableHeader },
   data: () => ({
@@ -105,16 +105,34 @@ export default Vue.extend({
         sortable: false,
       },
     ] as Array<TableHeaderModel>,
-    notes: [],
+    notes: [] as Array<any>,
     isLoading: true,
   }),
+  computed: {
+    ...mapState(DIALOG, {
+      dialogResult: `dialogResult`,
+      confirmDialogResult: `confirmDialogResult`,
+    }),
+  },
+  watch: {
+    dialogResult(result) {
+      if (result != undefined && result.status) {
+        this.findAndRemoveNote(result.data.id);
+        this.notes.push(result.data);
+      }
+    },
+    confirmDialogResult(result) {
+      if (result.agree) this.deleteConfirm(result.data);
+    },
+  },
   mounted() {
     this.loadNotes();
   },
   methods: {
-    ...mapMutations(DIALOG, ["showModal"]),
+    ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
+    ...mapMutations(SNACKBAR, ["showSnackbar"]),
     loadNotes() {
-      getNotes(0, 0)
+      getNotes(0, 15)
         .then((notesRes) => {
           if (notesRes.status) {
             this.notes = notesRes.result.notes;
@@ -133,6 +151,39 @@ export default Vue.extend({
         },
       };
       this.showModal(create);
+    },
+    editNote(item: any) {
+      const update: Dialog = {
+        color: "warning",
+        title: `ویرایش ${item.title}`,
+        content: {
+          component: () => import("@/components/note/Upsert.vue"),
+          props: { updateNote: item },
+        },
+      };
+      this.showModal(update);
+    },
+    removeNote(item: any) {
+      const confirm: ConfirmDialog = {
+        data: item.id,
+        text: `آیا از حذف ${item.title} مطمئن هستید؟`,
+        title: "حذف یادداشت",
+        agreeText: "بله",
+        disagreeText: "لغو",
+      };
+      this.showConfirm(confirm);
+    },
+    deleteConfirm(id: any) {
+      deleteNote(id).then((deleteRes) => {
+        if (deleteRes.status) {
+          this.findAndRemoveNote(id);
+        }
+        this.showSnackbar(deleteRes.title);
+      });
+    },
+    findAndRemoveNote(id: string) {
+      let index = this.notes.findIndex((note) => note.id == id);
+      if (index != -1) this.notes.splice(index, 1);
     },
     getNoteImportanceObj,
   },
