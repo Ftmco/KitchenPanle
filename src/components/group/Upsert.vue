@@ -15,6 +15,7 @@
         </v-col>
         <v-col cols="12">
           <v-select
+            v-model="group.status"
             label="وضعیت"
             placeholder="وضعیت"
             outlined
@@ -48,6 +49,7 @@ import { rules, status } from "@/constants";
 import { UpsertGroup } from "@/api/models/group.model";
 import { mapMutations } from "vuex";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
+import { upsertGroup } from "@/api/apis/group.apis";
 
 export default Vue.extend({
   props: ["updateGroup"],
@@ -68,6 +70,7 @@ export default Vue.extend({
         this.group = {
           id: this.updateGroup.id,
           name: this.updateGroup.name,
+          status: this.updateGroup.status,
         };
       }
     },
@@ -75,6 +78,16 @@ export default Vue.extend({
       const isValid = (this.$refs.groupForm as any).validate();
       if (isValid) {
         this.upserting = true;
+        upsertGroup(this.group).then((upRes) => {
+          if (upRes.status) {
+            this.setDialogResult({
+              status: true,
+              data: upRes.result.group,
+            });
+            this.hideModal();
+          }
+          this.showSnackbar(upRes.title);
+        });
       }
     },
   },
