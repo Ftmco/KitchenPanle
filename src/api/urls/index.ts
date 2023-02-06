@@ -17,3 +17,9 @@ export const type = {
     upsert: "/MeasurementType/Upsert",
     delete: (id: string) => `/MeasurementType/Delete?id=${id}`
 }
+
+export const inventory = {
+    inventories: (page: number, count: number) => `/Inventory/Inventory?page=${page}&count=${count}`,
+    upsert: "/Inventory/Upsert",
+    delete: (id: string) => `/Inventory/Delete?id=${id}`
+}
