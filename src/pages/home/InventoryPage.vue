@@ -159,7 +159,7 @@ export default Vue.extend({
       getInventories(0, 20)
         .then((invRes) => {
           if (invRes.status) {
-            this.pageCount = invRes.result.pageCount;
+            this.pageCount = invRes.result.pageCount + 1;
             this.inventories = invRes.result.inventory;
           }
         })
