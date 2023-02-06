@@ -38,13 +38,13 @@
         <template v-slot:item.actions="{ item }">
           <v-row>
             <v-col>
-              <v-btn block color="warning" text>
+              <v-btn block color="warning" text @click="editInventory(item)">
                 ویرایش
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
             </v-col>
             <v-col>
-              <v-btn block color="error" text>
+              <v-btn block color="error" text @click="removeInventory(item)">
                 حذف
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
@@ -60,14 +60,13 @@
 </template>
 
 <script lang="ts">
-import { getInventories } from "@/api/apis/inventory.api";
+import { deleteInventory, getInventories } from "@/api/apis/inventory.api";
 import TableHeader from "@/components/core/TableHeader.vue";
-import { Dialog, TableHeaderModel } from "@/components/models";
+import { ConfirmDialog, Dialog, TableHeaderModel } from "@/components/models";
 import { getBaseStatusObj, getInventoryStatus } from "@/services/status";
-import { DIALOG } from "@/store/store_types";
+import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
-import { VCol, VCard, VTextField, VDataTable, VChip, VRow, VBtn, VIcon, VPagination } from "vuetify/lib";
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default Vue.extend({
   components: { TableHeader },
   data: () => ({
@@ -83,6 +82,12 @@ export default Vue.extend({
       {
         text: "مقدار",
         value: "value",
+        align: "start",
+        sortable: true,
+      },
+      {
+        text: "خد هشدار",
+        value: "alertLimit",
         align: "start",
         sortable: true,
       },
@@ -117,15 +122,33 @@ export default Vue.extend({
         sortable: false,
       },
     ] as Array<TableHeaderModel>,
-    inventories: [],
+    inventories: [] as Array<any>,
     page: 1,
     pageCount: 1,
   }),
+  computed: {
+    ...mapState(DIALOG, {
+      dialogResult: `dialogResult`,
+      confirmDialogResult: `confirmDialogResult`,
+    }),
+  },
+  watch: {
+    dialogResult(result) {
+      if (result != undefined && result.status) {
+        this.findAndRemoveInventory(result.data.id);
+        this.inventories.push(result.data);
+      }
+    },
+    confirmDialogResult(result) {
+      if (result.agree) this.deleteConfirm(result.data);
+    },
+  },
   mounted() {
     this.loadInventories();
   },
   methods: {
-    ...mapMutations(DIALOG, ["showModal"]),
+    ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
+    ...mapMutations(SNACKBAR, ["showSnackbar"]),
     loadInventories() {
       getInventories(0, 20)
         .then((invRes) => {
@@ -146,6 +169,41 @@ export default Vue.extend({
         },
       };
       this.showModal(create);
+    },
+    editInventory(item: any) {
+      const update: Dialog = {
+        color: "warning",
+        title: `ویرایش ${item.name}`,
+        content: {
+          component: () => import("@/components/inventory/Upsert.vue"),
+          props: {
+            updateInventory: item,
+          },
+        },
+      };
+      this.showModal(update);
+    },
+    removeInventory(item: any) {
+      const confirm: ConfirmDialog = {
+        data: item.id,
+        text: `آیا از حذف ${item.name} مطمئن هستید؟`,
+        title: "حذف موجودی",
+        agreeText: "حذف",
+        disagreeText: "لغو",
+      };
+      this.showConfirm(confirm);
+    },
+    findAndRemoveInventory(id: string) {
+      let index = this.inventories.findIndex((inv) => inv.id == id);
+      if (index != -1) this.inventories.splice(index, 1);
+    },
+    deleteConfirm(data: any) {
+      deleteInventory(data).then((delRes) => {
+        if (delRes.status) {
+          this.findAndRemoveInventory(data);
+        }
+        this.showSnackbar(delRes.title);
+      });
     },
     getInventoryStatus,
   },

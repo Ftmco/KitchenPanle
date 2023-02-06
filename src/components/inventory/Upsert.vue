@@ -119,7 +119,7 @@ export default Vue.extend({
           id: this.updateInventory.id,
           alertLimit: this.updateInventory.alertLimit,
           description: this.updateInventory.description,
-          typeId: this.updateInventory.typeId,
+          typeId: this.updateInventory.type.id,
           value: this.updateInventory.value,
         };
       }
