@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { deleteGroup, getGroups } from "@/api/apis/group.apis";
+import { deleteGroup, getGroups } from "@/api/apis/group.api";
 import TableHeader from "@/components/core/TableHeader.vue";
 import { ConfirmDialog, Dialog, TableHeaderModel } from "@/components/models";
 import { getBaseStatusObj } from "@/services/status";
