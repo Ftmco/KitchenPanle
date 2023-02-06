@@ -33,3 +33,21 @@ export const importance = [
         color:'success'
     },
 ]
+
+export const inventory = [
+    {
+        status:0,
+        title:'موجود',
+        color:'success'
+    },
+    {
+        status:1,
+        title:'حد هشدار',
+        color:'warning'
+    },
+    {
+        status:2,
+        title:'اتمام',
+        color:'error'
+    },
+]
