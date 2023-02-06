@@ -86,7 +86,7 @@ export default Vue.extend({
         sortable: true,
       },
       {
-        text: "خد هشدار",
+        text: "حد هشدار",
         value: "alertLimit",
         align: "start",
         sortable: true,
@@ -100,6 +100,12 @@ export default Vue.extend({
       {
         text: "وضعیت",
         value: "status",
+        align: "start",
+        sortable: true,
+      },
+      {
+        text: "دسته بندی",
+        value: "group.name",
         align: "start",
         sortable: true,
       },

@@ -5,4 +5,5 @@ export interface UpsertInventory {
     alertLimit: number
     typeId: string
     description: string
+    groupId: string
 }

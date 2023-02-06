@@ -37,7 +37,7 @@
             :rules="[rules.require]"
           />
         </v-col>
-        <v-col cols="12">
+        <v-col cols="12" md="6" sm="6">
           <v-select
             v-model="inventory.typeId"
             :items="types"
@@ -47,12 +47,24 @@
             clearable
             label="نوع مقدار"
             placeholder="نوع مقدار"
-            type="number"
+            class="rounded-lg"
+          />
+        </v-col>
+        <v-col cols="12" md="6" sm="6">
+          <v-select
+            v-model="inventory.groupId"
+            :items="groups"
+            item-text="name"
+            item-value="id"
+            outlined
+            clearable
+            label="دسته بندی"
+            placeholder="دسته بندی"
             class="rounded-lg"
           />
         </v-col>
 
-        <v-col cols="12">
+        <v-col cols="12" >
           <v-textarea
             v-model="inventory.description"
             outlined
@@ -85,6 +97,7 @@
 </template>
 
 <script lang="ts">
+import { getGroups } from "@/api/apis/group.api";
 import { upsertInventory } from "@/api/apis/inventory.api";
 import { getTypes } from "@/api/apis/type.api";
 import { UpsertInventory } from "@/api/models/inventory.model";
@@ -97,12 +110,14 @@ export default Vue.extend({
   data: () => ({
     rules: rules,
     types: [],
+    groups: [],
     inventory: {} as UpsertInventory,
     inAction: false,
   }),
   mounted() {
     this.setInventory();
     this.loadTypes();
+    this.loadGroups();
   },
   methods: {
     ...mapMutations(DIALOG, ["hideModal", "setDialogResult"]),
@@ -110,6 +125,15 @@ export default Vue.extend({
     loadTypes() {
       getTypes(0, 0).then((typesRes) => {
         if (typesRes.status) this.types = typesRes.result.types;
+      });
+    },
+    loadGroups() {
+      getGroups(0, 0).then((groupsRes) => {
+        if (groupsRes.status) {
+          this.groups = groupsRes.result.groups.map((g: any) => {
+            if (g.status == 0) return g;
+          });
+        }
       });
     },
     setInventory() {
@@ -121,6 +145,7 @@ export default Vue.extend({
           description: this.updateInventory.description,
           typeId: this.updateInventory.type.id,
           value: this.updateInventory.value,
+          groupId: this.updateInventory.groupId,
         };
       }
     },
