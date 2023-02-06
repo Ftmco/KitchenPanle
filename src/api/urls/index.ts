@@ -23,3 +23,15 @@ export const inventory = {
     upsert: "/Inventory/Upsert",
     delete: (id: string) => `/Inventory/Delete?id=${id}`
 }
+
+export const food = {
+    foods: (page: number, count: number) => `/Food/Foods?page=${page}&count=${count}`,
+    upsert: "/Food/Upsert",
+    delete: (id: string) => `/Food/Delete?id=${id}`
+}
+
+export const norm = {
+    norms: (foodId: string) => `/Food/Norms?foodId=${foodId}`,
+    addNorm: "/Food/AddNorm",
+    delete: (id: string) => `/Food/RemoveNorm?id=${id}`
+}
