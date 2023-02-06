@@ -49,7 +49,7 @@ import { rules, status } from "@/constants";
 import { UpsertGroup } from "@/api/models/group.model";
 import { mapMutations } from "vuex";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
-import { upsertGroup } from "@/api/apis/group.apis";
+import { upsertGroup } from "@/api/apis/group.api";
 
 export default Vue.extend({
   props: ["updateGroup"],
