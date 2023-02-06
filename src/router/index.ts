@@ -49,6 +49,16 @@ const routes: Array<RouteConfig> = [
                 }),
             },
             {
+                path: 'foods/norms',
+                name: 'Norms',
+                component: () => import("@/pages/food/Norms.vue"),
+                meta: (route: Route) => ({
+                    title: `نورم ${route.query.name}`,
+                    route,
+                    hasBack: true
+                }),
+            },
+            {
                 path: 'inventory',
                 name: 'Inventory',
                 component: () => import("@/pages/home/InventoryPage.vue"),
