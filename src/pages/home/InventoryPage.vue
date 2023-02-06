@@ -5,7 +5,7 @@
         title="موجودی"
         newTitle="افزودن"
         :newAction="addInventory"
-        :reloadAction="() => {}"
+        :reloadAction="loadInventories"
       >
         <template v-slot:search>
           <v-text-field
@@ -31,8 +31,8 @@
         hide-default-footer
       >
         <template v-slot:item.status="{ item }">
-          <v-chip :color="getBaseStatusObj(item.status).color">
-            {{ getBaseStatusObj(item.status).title }}
+          <v-chip :color="getInventoryStatus(item.status).color">
+            {{ getInventoryStatus(item.status).title }}
           </v-chip>
         </template>
         <template v-slot:item.actions="{ item }">
@@ -60,11 +60,13 @@
 </template>
 
 <script lang="ts">
+import { getInventories } from "@/api/apis/inventory.api";
 import TableHeader from "@/components/core/TableHeader.vue";
 import { Dialog, TableHeaderModel } from "@/components/models";
-import { getBaseStatusObj } from "@/services/status";
+import { getBaseStatusObj, getInventoryStatus } from "@/services/status";
 import { DIALOG } from "@/store/store_types";
 import Vue from "vue";
+import { VCol, VCard, VTextField, VDataTable, VChip, VRow, VBtn, VIcon, VPagination } from "vuetify/lib";
 import { mapMutations } from "vuex";
 export default Vue.extend({
   components: { TableHeader },
@@ -74,7 +76,7 @@ export default Vue.extend({
     headers: [
       {
         text: "عنوان",
-        value: "title",
+        value: "name",
         align: "start",
         sortable: true,
       },
@@ -86,7 +88,7 @@ export default Vue.extend({
       },
       {
         text: "نوع مقدار",
-        value: "valueType",
+        value: "type.name",
         align: "start",
         sortable: true,
       },
@@ -119,8 +121,21 @@ export default Vue.extend({
     page: 1,
     pageCount: 1,
   }),
+  mounted() {
+    this.loadInventories();
+  },
   methods: {
     ...mapMutations(DIALOG, ["showModal"]),
+    loadInventories() {
+      getInventories(0, 20)
+        .then((invRes) => {
+          if (invRes.status) {
+            this.pageCount = invRes.result.pageCount;
+            this.inventories = invRes.result.inventory;
+          }
+        })
+        .finally(() => (this.isLoading = false));
+    },
     addInventory() {
       const create: Dialog = {
         color: "primary",
@@ -132,7 +147,7 @@ export default Vue.extend({
       };
       this.showModal(create);
     },
-    getBaseStatusObj,
+    getInventoryStatus,
   },
 });
 </script>
