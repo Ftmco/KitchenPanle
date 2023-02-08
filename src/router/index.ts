@@ -59,6 +59,16 @@ const routes: Array<RouteConfig> = [
                 }),
             },
             {
+                path: 'days',
+                name: 'Days',
+                component: () => import("@/pages/home/DaysPage.vue"),
+                meta: (route: Route) => ({
+                    title: 'روز ها',
+                    route,
+                    hasBack: true
+                }),
+            },
+            {
                 path: 'inventory',
                 name: 'Inventory',
                 component: () => import("@/pages/home/InventoryPage.vue"),
