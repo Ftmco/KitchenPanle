@@ -3,3 +3,10 @@ export interface UpsertFood {
     name: string
     type: number
 }
+
+export interface AddNorm {
+    foodId: string
+    inventoryId: string
+    typeId: string
+    value: number
+}
