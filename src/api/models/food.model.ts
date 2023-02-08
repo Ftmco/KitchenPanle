@@ -18,3 +18,8 @@ export interface UpsertDayFood {
     meal: string
     type: number
 }
+
+export interface MakeMeal {
+    id: string
+    count: number
+}
