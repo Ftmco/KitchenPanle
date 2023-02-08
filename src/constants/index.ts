@@ -12,6 +12,12 @@ export const navigationItems = [
         active: false,
         children: [
             {
+                id: 20,
+                title: 'روز ها',
+                icon: 'mdi-sun-clock',
+                to: '/tabs/days',
+            },
+            {
                 id: 21,
                 title: 'غذا ها',
                 icon: 'mdi-food',
