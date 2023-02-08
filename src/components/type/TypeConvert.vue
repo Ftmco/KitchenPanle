@@ -6,7 +6,7 @@
         newTitle="افزودن"
         :hasNewAction="true"
         :newAction="addConvert"
-        :reloadAction="() => {}"
+        :reloadAction="loadConversions"
       >
         <template v-slot:search>
           <v-text-field
@@ -20,7 +20,7 @@
       </table-header>
     </v-card>
     <br v-if="newConvert" />
-    <add-convert v-if="newConvert" />
+    <add-convert v-if="newConvert" :typeId="type.id" />
     <br />
     <v-card elevation="4" class="rounded-lg">
       <v-data-table
@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { getTypes } from "@/api/apis/type.api";
+import { getTypeConversions, getTypes } from "@/api/apis/type.api";
 import { rules } from "@/constants";
 import Vue from "vue";
 import TableHeader from "../core/TableHeader.vue";
@@ -67,13 +67,13 @@ export default Vue.extend({
         text: "از نوع",
         align: "start",
         sortable: false,
-        value: "fromType",
+        value: "fromType.name",
       },
       {
         text: "به نوع",
         align: "start",
         sortable: false,
-        value: "toType",
+        value: "toType.name",
       },
       {
         text: "از مقدار",
@@ -85,13 +85,30 @@ export default Vue.extend({
         text: "به مقدار",
         align: "start",
         sortable: false,
-        value: "tosValue",
+        value: "toValue",
+      },
+      {
+        text: "",
+        align: "start",
+        sortable: false,
+        value: "actions",
       },
     ] as Array<TableHeaderModel>,
     converts: [] as Array<any>,
     newConvert: false,
   }),
+  created() {
+    this.loadConversions();
+  },
   methods: {
+    loadConversions() {
+      this.isLoading = true;
+      getTypeConversions(this.type.id)
+        .then((convertRes) => {
+          if (convertRes.status) this.converts = convertRes.result.conversions;
+        })
+        .finally(() => (this.isLoading = false));
+    },
     addConvert() {
       this.newConvert = !this.newConvert;
     },
