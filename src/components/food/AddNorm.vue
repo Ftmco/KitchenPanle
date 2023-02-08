@@ -12,7 +12,7 @@
             :items="inventories"
             item-text="name"
             item-value="id"
-            v-model="norm.inventoryId"
+            v-model="norm.inventoryId"            
           />
         </v-col>
         <v-col cols="12" md="6" sm="6">
@@ -37,6 +37,7 @@
             clearable
             type="number"
             v-model="norm.value"
+            :rules="[rules.require]"
           />
         </v-col>
         <v-col cols="12">
@@ -64,6 +65,7 @@ import {
 } from "@/api/apis/inventory.api";
 import { getTypes } from "@/api/apis/type.api";
 import { AddNorm } from "@/api/models/food.model";
+import { rules } from "@/constants";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
 import { mapMutations } from "vuex";
@@ -74,6 +76,7 @@ export default Vue.extend({
     types: [] as Array<any>,
     norm: {} as AddNorm,
     inAction: false,
+    rules:rules
   }),
   beforeMount() {
     this.loadInventories();
