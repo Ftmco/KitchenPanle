@@ -7,3 +7,10 @@ export interface UpsertInventory {
     description: string
     groupId: string
 }
+
+export interface TypeConvert {
+    typeId: string
+    toTypeId: string
+    value: number
+    toValue: number
+}
