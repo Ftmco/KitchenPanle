@@ -77,6 +77,7 @@ export const messages = {
 }
 
 export const rules = {
+    numberRequire: (value: number) => value > 0 || 'لطفا مقدار بیشتر از 0 وارد کنید',
     require: (value: string) => !!value || 'لطفا فیلد را پر کنید.',
     requireMultipleSelect: (items: any) => items.length > 0 || 'لطفا یک مورد را انتخاب کنید.',
     requireSelect: (value: any) => !!value || 'لطفا یک مورد را انتخاب کنید',
