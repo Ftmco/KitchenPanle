@@ -48,5 +48,6 @@ export const day = {
 export const dayfood = {
     daysFoods: (pagination: Pagination) => `/DayFood/DaysFoods?page=${pagination.page}&count=${pagination.count}`,
     upsert: "/DayFood/Upsert",
-    delete: (id: string) => `/DayFood/Delete?id=${id}`
+    delete: (id: string) => `/DayFood/Delete?id=${id}`,
+    makeMeal: '/DayFood/MakeMeal'
 }
