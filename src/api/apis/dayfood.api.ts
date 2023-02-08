@@ -1,7 +1,7 @@
 import { Pagination } from "@/components/models";
 import { apiCall } from "..";
 import { ApiResponse } from "../models/api.model";
-import { UpsertDayFood } from "../models/food.model";
+import { MakeMeal, UpsertDayFood } from "../models/food.model";
 import { baseURLs, dayfood } from "../urls";
 
 
@@ -33,6 +33,17 @@ export const deleteDayFood = (id: string): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
             const request = await axios.delete(dayfood.delete(id))
+            const response = await request.data
+            resolve(response as ApiResponse)
+        } catch (error) {
+            reject(error)
+        }
+    })
+
+export const makeMeal = (meal: MakeMeal): Promise<ApiResponse> =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const request = await axios.post(dayfood.makeMeal, meal)
             const response = await request.data
             resolve(response as ApiResponse)
         } catch (error) {
