@@ -21,7 +21,7 @@
     <br />
     <v-card elevation="4" class="rounded-lg">
       <v-data-table
-        :loading="inLoading"
+        :loading="isLoading"
         :headers="headers"
         :items="groups"
         :search="search"
@@ -70,7 +70,7 @@ import { mapMutations, mapState } from "vuex";
 export default Vue.extend({
   data: () => ({
     search: "",
-    inLoading: true,
+    isLoading: true,
     headers: [
       {
         text: "نام",
@@ -126,7 +126,7 @@ export default Vue.extend({
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
     ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
     loadGroups() {
-      this.inLoading = true;
+      this.isLoading = true;
       getGroups(0, 10)
         .then((groupsRes) => {
           if (groupsRes.status) {
@@ -134,7 +134,7 @@ export default Vue.extend({
             this.pageCount = groupsRes.result.pageCount + 1;
           }
         })
-        .finally(() => (this.inLoading = false));
+        .finally(() => (this.isLoading = false));
     },
     newGroup() {
       const create: Dialog = {
