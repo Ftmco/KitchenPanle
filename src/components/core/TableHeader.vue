@@ -4,7 +4,7 @@
     <v-spacer></v-spacer>
     <slot name="search"></slot>
     <v-spacer></v-spacer>
-    <v-btn color="primary" text @click="newAction">
+    <v-btn v-if="hasNewAction" color="primary" text @click="newAction">
       {{ newTitle }}
       <v-icon>mdi-plus</v-icon>
     </v-btn>
@@ -18,7 +18,7 @@
 <script lang="ts">
 import Vue from "vue";
 export default Vue.extend({
-  props: ["title", "newTitle", "newAction", "reloadAction"],
+  props: ["title", "hasNewAction", "newTitle", "newAction", "reloadAction"],
   data: () => ({
     search: "",
   }),
