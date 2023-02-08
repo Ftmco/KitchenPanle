@@ -4,6 +4,7 @@
       <table-header
         title="گروه ها"
         newTitle="گروه جدید"
+        :hasNewAction="true"
         :newAction="newGroup"
         :reloadAction="loadGroups"
       >
@@ -53,7 +54,11 @@
         </template>
       </v-data-table>
       <div class="text-center">
-        <v-pagination v-model="page" :length="pageCount"></v-pagination>
+        <v-pagination
+          v-model="page"
+          :length="pageCount"
+          @input="pageChange"
+        ></v-pagination>
       </div>
     </v-card>
   </v-col>
@@ -62,7 +67,13 @@
 <script lang="ts">
 import { deleteGroup, getGroups } from "@/api/apis/group.api";
 import TableHeader from "@/components/core/TableHeader.vue";
-import { ConfirmDialog, Dialog, TableHeaderModel } from "@/components/models";
+import {
+  ConfirmDialog,
+  Dialog,
+  Pagination,
+  TableHeaderModel,
+} from "@/components/models";
+import { pageListSize } from "@/constants";
 import { getBaseStatusObj } from "@/services/status";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
@@ -120,14 +131,18 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadGroups();
+    this.loadGroups({ page: this.page - 1, count: pageListSize });
   },
   methods: {
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
     ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
-    loadGroups() {
+    pageChange(value: any) {
+      this.loadGroups({ page: value - 1, count: pageListSize });
+    },
+    loadGroups(pagination: Pagination) {
+      this.page = pagination.page + 1;
       this.isLoading = true;
-      getGroups(0, 10)
+      getGroups(pagination.page, pagination.count)
         .then((groupsRes) => {
           if (groupsRes.status) {
             this.groups = groupsRes.result.groups;

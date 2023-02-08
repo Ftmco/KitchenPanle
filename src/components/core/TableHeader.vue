@@ -8,7 +8,11 @@
       {{ newTitle }}
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <v-btn color="info" text @click="reloadAction">
+    <v-btn
+      color="info"
+      text
+      @click="reloadAction({ page: 0, count: 10 })"
+    >
       تازه سازی
       <v-icon>mdi-reload</v-icon>
     </v-btn>

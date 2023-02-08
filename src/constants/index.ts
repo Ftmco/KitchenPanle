@@ -95,3 +95,5 @@ export const status = [
         value: 2,
     }
 ]
+
+export const pageListSize = 10;
