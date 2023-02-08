@@ -33,3 +33,8 @@ export interface TableHeaderModel {
     sortable: boolean
     value: string
 }
+
+export interface Pagination {
+    page: number 
+    count: number
+}

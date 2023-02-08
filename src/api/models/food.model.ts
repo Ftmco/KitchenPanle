@@ -12,6 +12,7 @@ export interface AddNorm {
 }
 
 export interface UpsertDayFood {
+    id?: string | null
     dayId: string
     foodId: string
     meal: string

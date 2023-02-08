@@ -4,6 +4,7 @@
       <table-header
         title="نوع ها"
         newTitle="نوع جدید"
+        :hasNewAction="true"
         :newAction="addType"
         :reloadAction="loadTypes"
       >
@@ -60,17 +61,7 @@ import TableHeader from "@/components/core/TableHeader.vue";
 import { ConfirmDialog, Dialog, TableHeaderModel } from "@/components/models";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
-import {
-  VCol,
-  VCard,
-  VTextField,
-  VDataTable,
-  VRow,
-  VBtn,
-  VIcon,
-  VPagination,
-} from "vuetify/lib";
-import types, { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default Vue.extend({
   components: { TableHeader },
   data: () => ({
@@ -127,7 +118,7 @@ export default Vue.extend({
       getTypes(0, 20)
         .then((typesRes) => {
           if (typesRes.status) {
-            this.pageCount = typesRes.result.pageCount;
+            this.pageCount = typesRes.result.pageCount + 1;
             this.types = typesRes.result.types;
           }
         })

@@ -78,7 +78,8 @@ export const messages = {
 
 export const rules = {
     require: (value: string) => !!value || 'لطفا فیلد را پر کنید.',
-    requireSelect: (items: any) => items.length > 0 || 'لطفا یک مورد را انتخاب کنید.',
+    requireMultipleSelect: (items: any) => items.length > 0 || 'لطفا یک مورد را انتخاب کنید.',
+    requireSelect: (value: any) => !!value || 'لطفا یک مورد را انتخاب کنید',
 }
 
 export const status = [
@@ -95,3 +96,5 @@ export const status = [
         value: 2,
     }
 ]
+
+export const pageListSize = 10;
