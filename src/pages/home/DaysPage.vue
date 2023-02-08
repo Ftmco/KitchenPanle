@@ -4,6 +4,7 @@
       <table-header
         title="روز ها"
         newTitle="روز جدید"
+        :hasNewAction="true"
         :newAction="newDay"
         :reloadAction="loadDays"
       >
