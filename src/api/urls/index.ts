@@ -20,6 +20,7 @@ export const type = {
 
 export const inventory = {
     inventories: (page: number, count: number) => `/Inventory/Inventory?page=${page}&count=${count}`,
+    preview: '/Inventory/Preview',
     upsert: "/Inventory/Upsert",
     delete: (id: string) => `/Inventory/Delete?id=${id}`
 }
