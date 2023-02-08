@@ -34,6 +34,12 @@
         <template v-slot:item.actions="{ item }">
           <v-row>
             <v-col>
+              <v-btn block color="info" text @click="typeConvert(item)">
+                تبدیل واحدها
+                <v-icon>mdi-calculator</v-icon>
+              </v-btn>
+            </v-col>
+            <v-col>
               <v-btn block color="warning" text @click="editType(item)">
                 ویرایش
                 <v-icon>mdi-pencil</v-icon>
@@ -147,6 +153,19 @@ export default Vue.extend({
         },
       };
       this.showModal(update);
+    },
+    typeConvert(item: any) {
+      const convert: Dialog = {
+        color: "info",
+        title: `تبدیل واحد ${item.name}`,
+        content: {
+          component: ()=> import("@/components/type/TypeConvert.vue"),
+          props: {
+            type: item,
+          },
+        },
+      };
+      this.showModal(convert);
     },
     findAndRemoveType(id: string) {
       let index = this.types.findIndex((type) => type.id == id);
