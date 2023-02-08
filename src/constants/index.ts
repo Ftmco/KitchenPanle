@@ -11,12 +11,7 @@ export const navigationItems = [
         icon: 'mdi-food',
         active: false,
         children: [
-            {
-                id: 20,
-                title: 'روز ها',
-                icon: 'mdi-sun-clock',
-                to: '/tabs/days',
-            },
+
             {
                 id: 21,
                 title: 'غذا ها',
@@ -59,6 +54,12 @@ export const navigationItems = [
     },
     {
         id: 4,
+        title: 'روز ها',
+        icon: 'mdi-sun-clock',
+        to: '/tabs/days',
+    },
+    {
+        id: 5,
         title: 'یادداشت',
         icon: 'mdi-note',
         to: '/tabs/notes'
@@ -82,15 +83,15 @@ export const rules = {
 
 export const status = [
     {
-        title:'فعال',
-        value:0,
+        title: 'فعال',
+        value: 0,
     },
     {
-        title:'غیر فعال',
-        value:1,
+        title: 'غیر فعال',
+        value: 1,
     },
     {
-        title:'حذف شده',
-        value:2,
+        title: 'حذف شده',
+        value: 2,
     }
 ]
