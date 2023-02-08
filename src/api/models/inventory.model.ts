@@ -9,8 +9,8 @@ export interface UpsertInventory {
 }
 
 export interface TypeConvert {
-    typeId: string
+    fromTypeId: string
     toTypeId: string
-    value: number
+    fromValue: number
     toValue: number
 }
