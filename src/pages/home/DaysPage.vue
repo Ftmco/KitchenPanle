@@ -52,6 +52,7 @@
 </template>
 
 <script lang="ts">
+import { getDays } from "@/api/apis/day.api";
 import TableHeader from "@/components/core/TableHeader.vue";
 import { TableHeaderModel } from "@/components/models";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
@@ -88,7 +89,11 @@ export default Vue.extend({
   methods: {
     ...mapMutations(DIALOG, ["showModal"]),
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
-    loadDays() {},
+    loadDays() {
+      getDays().then((dayRes) => {
+        if (dayRes.status) this.days = dayRes.result.days;
+      });
+    },
     newDay() {},
     editDay(item: any) {},
     removeDay(item: any) {},
