@@ -17,7 +17,7 @@ export const getDays = (): Promise<ApiResponse> =>
         }
     })
 
-export const addDays = (add: AddDay): Promise<ApiResponse> =>
+export const addDay = (add: AddDay): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
             const request = await axios.post(day.add, add)
@@ -28,7 +28,7 @@ export const addDays = (add: AddDay): Promise<ApiResponse> =>
         }
     })
 
-export const deleteDays = (id: string): Promise<ApiResponse> =>
+export const deleteDay = (id: string): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
             const request = await axios.delete(day.delete(id))
