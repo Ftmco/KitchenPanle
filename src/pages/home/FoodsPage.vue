@@ -4,6 +4,7 @@
       <table-header
         title="غذا ها"
         newTitle="غذای جدید"
+        :hasNewAction="true"
         :newAction="addFood"
         :reloadAction="loadFoods"
       >
@@ -204,7 +205,6 @@ export default Vue.extend({
       deleteFood(data).then((delRes) => {
         if (delRes.status) {
           this.findAndRemoveFood(data);
-          this.foods.push(delRes.result.food);
         }
         this.showSnackbar(delRes.title);
       });
