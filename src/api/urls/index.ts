@@ -17,7 +17,9 @@ export const note = {
 export const type = {
     types: (page: number, count: number) => `/MeasurementType/Types?page=${page}&count=${count}`,
     upsert: "/MeasurementType/Upsert",
-    delete: (id: string) => `/MeasurementType/Delete?id=${id}`
+    delete: (id: string) => `/MeasurementType/Delete?id=${id}`,
+    conversions: (id: string) => `/MeasurementType/Conversions?id=${id}`,
+    addConvert: '/MeasurementType/AddConvert'
 }
 
 export const inventory = {
