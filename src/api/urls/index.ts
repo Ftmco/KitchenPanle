@@ -36,3 +36,9 @@ export const norm = {
     addNorm: "/Food/AddNorm",
     delete: (id: string) => `/Food/RemoveNorm?id=${id}`
 }
+
+export const day = {
+    days: "/Day/Days",
+    add: "/Day/AddNorm",
+    delete: (id: string) => `/Day/Delete?id=${id}`
+}
