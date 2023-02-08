@@ -3,7 +3,7 @@
       <v-card elevation="4" class="rounded-lg">
         <table-header
           title="هشدار موجودی"
-          newTitle="هشدار جدید"
+          newTitle=""
           :newAction="() => {}"
           :reloadAction="() => {}"
         >
@@ -18,16 +18,104 @@
           </template>
         </table-header>
       </v-card>
+      <br />
+    <v-card elevation="4" class="rounded-lg">
+      <v-data-table
+        :loading="isLoading"
+        :headers="headers"
+        :items="inventories"
+        :search="search"
+        no-data-text="هشداری یافت نشد"
+        loading-text="کمی صبر کنید..."
+        no-results-text="موردی یافت نشد"
+        hide-default-footer
+      >
+        <template v-slot:item.status="{ item }">
+          <v-chip :color="getInventoryStatus(item.status).color">
+            {{ getInventoryStatus(item.status).title }}
+          </v-chip>
+        </template>
+      </v-data-table>
+      <div class="text-center">
+        <v-pagination v-model="page" :length="pageCount"></v-pagination>
+      </div>
+    </v-card>
+  </v-col>
     </v-col>
   </template>
   
   <script lang="ts">
-  import Vue from "vue";
-  import TableHeader from "../core/TableHeader.vue";
-  export default Vue.extend({
-    components: { TableHeader },
-    data:()=>({
-      search:""
-    })
-  });
-  </script>
+import { getInventoryStatus } from "@/services/status";
+import Vue from "vue";
+import TableHeader from "../core/TableHeader.vue";
+import { TableHeaderModel } from "../models";
+export default Vue.extend({
+  components: { TableHeader },
+  data: () => ({
+    search: "",
+    isLoading: true,
+    headers: [
+      {
+        text: "عنوان",
+        value: "name",
+        align: "start",
+        sortable: true,
+      },
+      {
+        text: "مقدار",
+        value: "value",
+        align: "start",
+        sortable: true,
+      },
+      {
+        text: "حد هشدار",
+        value: "alertLimit",
+        align: "start",
+        sortable: true,
+      },
+      {
+        text: "نوع مقدار",
+        value: "type.name",
+        align: "start",
+        sortable: true,
+      },
+      {
+        text: "وضعیت",
+        value: "status",
+        align: "start",
+        sortable: true,
+      },
+      {
+        text: "دسته بندی",
+        value: "group.name",
+        align: "start",
+        sortable: true,
+      },
+      {
+        text: "تاریخ ثبت",
+        value: "createDate",
+        align: "start",
+        sortable: true,
+      },
+      {
+        text: "",
+        value: "actions",
+        align: "center",
+        sortable: false,
+      },
+    ] as Array<TableHeaderModel>,
+    inventories: [] as Array<any>,
+    page: 1,
+    pageCount: 1,
+  }),
+  mounted() {
+    this.loadAlertLimit();
+  },
+  methods: {
+    loadAlertLimit() {
+      this.isLoading = false
+    },
+    getInventoryStatus,
+  },
+});
+</script>
