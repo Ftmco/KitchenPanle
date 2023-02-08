@@ -1,3 +1,5 @@
+import { Pagination } from "@/components/models";
+
 export const baseURLs = (isPublic: boolean) => 'http://localhost:5293/api';
 
 export const group = {
@@ -41,4 +43,10 @@ export const day = {
     days: "/Day/Days",
     add: "/Day/AddDay",
     delete: (id: string) => `/Day/Delete?id=${id}`
+}
+
+export const dayfood = {
+    daysFoods: (pagination: Pagination) => `/DayFood/DaysFoods?page=${pagination.page}&count=${pagination.count}`,
+    upsert: "/DayFood/Upsert",
+    delete: (id: string) => `/DayFood/Delete?id=${id}`
 }
