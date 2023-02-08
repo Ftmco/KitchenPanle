@@ -4,6 +4,7 @@
       <table-header
         title="موجودی"
         newTitle="افزودن"
+        :hasNewAction="true"
         :newAction="addInventory"
         :reloadAction="loadInventories"
       >
