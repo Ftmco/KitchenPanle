@@ -59,7 +59,9 @@
 
 <script lang="ts">
 import { addNorm } from "@/api/apis/food.api";
-import { getInventories } from "@/api/apis/inventory.api";
+import {
+  getPreviewInventories,
+} from "@/api/apis/inventory.api";
 import { getTypes } from "@/api/apis/type.api";
 import { AddNorm } from "@/api/models/food.model";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
@@ -84,7 +86,7 @@ export default Vue.extend({
     ...mapMutations(DIALOG, ["hideModal", "setDialogResult"]),
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
     loadInventories() {
-      getInventories(0, 0).then((invRes) => {
+      getPreviewInventories().then((invRes) => {
         if (invRes.status) this.inventories = invRes.result.inventory;
       });
     },
