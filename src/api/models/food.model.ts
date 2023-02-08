@@ -10,3 +10,10 @@ export interface AddNorm {
     typeId: string
     value: number
 }
+
+export interface UpsertDayFood {
+    dayId: string
+    foodId: string
+    meal: string
+    type: number
+}
