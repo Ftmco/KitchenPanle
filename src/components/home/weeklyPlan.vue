@@ -39,6 +39,12 @@
         <template v-slot:item.actions="{ item }">
           <v-row>
             <v-col>
+              <v-btn block color="info" text @click="makeMeal(item)">
+                ایجاد وعده
+                <v-icon>mdi-food-fork-drink</v-icon>
+              </v-btn>
+            </v-col>
+            <v-col>
               <v-btn block color="warning" text @click="editDayFood(item)">
                 ویرایش
                 <v-icon>mdi-pencil</v-icon>
@@ -174,6 +180,19 @@ export default Vue.extend({
         },
       };
       this.showModal(edit);
+    },
+    makeMeal(item: any) {
+      const meal: Dialog = {
+        color: "info",
+        title: "ایجاد وعده",
+        content: {
+          component: () => import("@/components/food/MakeMeal.vue"),
+          props: {
+            dayFoodId: item.id,
+          },
+        },
+      };
+      this.showModal(meal);
     },
     findAndRemoveDayFood(id: string) {
       let index = this.daysFoods.findIndex((df) => df.id == id);
