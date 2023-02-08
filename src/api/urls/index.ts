@@ -39,6 +39,6 @@ export const norm = {
 
 export const day = {
     days: "/Day/Days",
-    add: "/Day/AddNorm",
+    add: "/Day/AddDay",
     delete: (id: string) => `/Day/Delete?id=${id}`
 }
