@@ -4,7 +4,7 @@
       <table-header
         title="نورم ها"
         newTitle="افزودن"
-        :newAction="() => {}"
+        :newAction="addNorm"
         :reloadAction="loadNorms"
       >
         <template v-slot:search>
@@ -33,7 +33,7 @@
         <template v-slot:item.actions="{ item }">
           <v-row>
             <v-col>
-              <v-btn block color="error" text>
+              <v-btn block color="error" text @click="removeNorm(item)">
                 حذف
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
@@ -46,10 +46,12 @@
 </template>
 
 <script lang="ts">
-import { getNorms } from "@/api/apis/food.api";
+import { getNorms, removeNorm } from "@/api/apis/food.api";
 import TableHeader from "@/components/core/TableHeader.vue";
-import { TableHeaderModel } from "@/components/models";
+import { ConfirmDialog, Dialog, TableHeaderModel } from "@/components/models";
+import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
+import { mapMutations, mapState } from "vuex";
 export default Vue.extend({
   components: { TableHeader },
   data: () => ({
@@ -84,11 +86,29 @@ export default Vue.extend({
       },
     ] as Array<TableHeaderModel>,
   }),
+  computed: {
+    ...mapState(DIALOG, {
+      dialogResult: `dialogResult`,
+      confirmDialogResult: `confirmDialogResult`,
+    }),
+  },
+  watch: {
+    dialogResult(result) {
+      if (result != undefined && result.status) {
+        this.norms.push(result.data);
+      }
+    },
+    confirmDialogResult(result) {
+      if (result.agree) this.deleteConfirm(result.data);
+    },
+  },
   mounted() {
     this.foodId = this.$route.query.foodId.toString();
     this.loadNorms();
   },
   methods: {
+    ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
+    ...mapMutations(SNACKBAR, ["showSnackbar"]),
     loadNorms() {
       this.isLoading = true;
       getNorms(this.foodId)
@@ -98,6 +118,41 @@ export default Vue.extend({
           }
         })
         .finally(() => (this.isLoading = false));
+    },
+    addNorm() {
+      const add: Dialog = {
+        color: "info",
+        title: "افزودن نورم",
+        content: {
+          component: () => import("@/components/food/AddNorm.vue"),
+          props: {
+            foodId: this.foodId,
+          },
+        },
+      };
+      this.showModal(add);
+    },
+    removeNorm(item: any) {
+      const confirm: ConfirmDialog = {
+        data: item.id,
+        title: "حذف نورم",
+        text: `آیا از حذف ${item.inventory.name} مطمئن هستید؟`,
+        agreeText: "حذف",
+        disagreeText: "لغو",
+      };
+      this.showConfirm(confirm);
+    },
+    findAndRemoveNorm(id: string) {
+      let index = this.norms.findIndex((n) => n.id == id);
+      if (index != -1) this.norms.splice(index, 1);
+    },
+    deleteConfirm(data: any) {
+      removeNorm(data).then((removeRes) => {
+        if (removeRes.status) {
+          this.findAndRemoveNorm(data);
+        }
+        this.showSnackbar(removeRes.title);
+      });
     },
   },
 });
