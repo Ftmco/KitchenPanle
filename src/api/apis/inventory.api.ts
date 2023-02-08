@@ -16,6 +16,17 @@ export const getInventories = (page: number, count: number): Promise<ApiResponse
         }
     })
 
+export const getPreviewInventories = (): Promise<ApiResponse> =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const request = await axios.get(inventory.preview)
+            const response = await request.data
+            resolve(response as ApiResponse)
+        } catch (error) {
+            reject(error)
+        }
+    })
+
 export const upsertInventory = (upsert: UpsertInventory): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
