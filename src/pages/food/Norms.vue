@@ -73,6 +73,12 @@ export default Vue.extend({
         sortable: true,
       },
       {
+        text: "نوع مقدار",
+        value: "type.name",
+        align: "start",
+        sortable: true,
+      },
+      {
         text: "تاریخ ایجاد",
         value: "createDate",
         align: "start",
