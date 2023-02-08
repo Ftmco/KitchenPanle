@@ -25,19 +25,13 @@
         :headers="headers"
         :items="days"
         :search="search"
-        no-data-text="گروهی یافت نشد"
+        no-data-text="روزی یافت نشد"
         loading-text="کمی صبر کنید..."
         no-results-text="موردی یافت نشد"
         hide-default-footer
       >
         <template v-slot:item.actions="{ item }">
           <v-row>
-            <v-col>
-              <v-btn block color="warning" text @click="editDay(item)">
-                ویرایش
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-            </v-col>
             <v-col>
               <v-btn block color="error" text @click="removeDay(item)">
                 حذف
@@ -52,12 +46,12 @@
 </template>
 
 <script lang="ts">
-import { getDays } from "@/api/apis/day.api";
+import { deleteDay, getDays } from "@/api/apis/day.api";
 import TableHeader from "@/components/core/TableHeader.vue";
-import { TableHeaderModel } from "@/components/models";
+import { ConfirmDialog, Dialog, TableHeaderModel } from "@/components/models";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default Vue.extend({
   components: { TableHeader },
   data: () => ({
@@ -85,18 +79,67 @@ export default Vue.extend({
     isLoading: true,
     search: "",
   }),
-  mounted() {},
+  computed: {
+    ...mapState(DIALOG, {
+      dialogResult: `dialogResult`,
+      confirmDialogResult: `confirmDialogResult`,
+    }),
+  },
+  watch: {
+    dialogResult(result) {
+      if (result != undefined && result.status) {
+        this.days.push(result.data);
+      }
+    },
+    confirmDialogResult(result) {
+      if (result.agree) this.deleteConfirm(result.data);
+    },
+  },
+  mounted() {
+    this.loadDays();
+  },
   methods: {
-    ...mapMutations(DIALOG, ["showModal"]),
+    ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
     loadDays() {
-      getDays().then((dayRes) => {
-        if (dayRes.status) this.days = dayRes.result.days;
+      this.isLoading = true;
+      getDays()
+        .then((dayRes) => {
+          if (dayRes.status) this.days = dayRes.result.days;
+        })
+        .finally(() => (this.isLoading = false));
+    },
+    newDay() {
+      const create: Dialog = {
+        color: "primary",
+        title: "ایجاد روز جدید",
+        content: {
+          component: () => import("@/components/day/Create.vue"),
+          props: {},
+        },
+      };
+      this.showModal(create);
+    },
+    removeDay(item: any) {
+      const confirm: ConfirmDialog = {
+        data: item.id,
+        title: "حذف روز",
+        text: `آیا از حذف ${item.name} مطمئن هستید؟`,
+        agreeText: "حذف",
+        disagreeText: "لغو",
+      };
+      this.showConfirm(confirm);
+    },
+    deleteConfirm(data: any) {
+      deleteDay(data).then((delRes) => {
+        if (delRes) this.findAndRemoveDay(data);
+        this.showSnackbar(delRes.title);
       });
     },
-    newDay() {},
-    editDay(item: any) {},
-    removeDay(item: any) {},
+    findAndRemoveDay(id: string) {
+      let index = this.days.findIndex((d) => d.id == id);
+      if (index != -1) this.days.splice(index, 1);
+    },
   },
 });
 </script>
