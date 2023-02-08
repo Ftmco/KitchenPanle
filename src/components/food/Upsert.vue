@@ -26,7 +26,13 @@
         />
       </v-col>
       <v-col cols="12">
-        <v-btn :color="updateFood? 'warning' : 'primary'" block class="rounded-lg" @click="submiteFood">
+        <v-btn
+          :color="updateFood ? 'warning' : 'primary'"
+          block
+          class="rounded-lg"
+          :loading="inAction"
+          @click="submiteFood"
+        >
           ثبت غذا
           <v-icon>mdi-check</v-icon>
         </v-btn>
@@ -37,7 +43,7 @@
 
 <script lang="ts">
 import { upsertFood } from "@/api/apis/food.api";
-import { UpsertFood } from "@/api/models/food.mode";
+import { UpsertFood } from "@/api/models/food.model";
 import { rules } from "@/constants";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
