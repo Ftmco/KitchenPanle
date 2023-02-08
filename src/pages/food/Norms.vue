@@ -4,6 +4,7 @@
       <table-header
         title="نورم ها"
         newTitle="افزودن"
+        :hasNewAction="true"
         :newAction="addNorm"
         :reloadAction="loadNorms"
       >
