@@ -64,7 +64,9 @@
 import { addTypeConvert, getTypes } from "@/api/apis/type.api";
 import { TypeConvert } from "@/api/models/inventory.model";
 import { rules } from "@/constants";
+import { DIALOG } from "@/store/store_types";
 import Vue from "vue";
+import { mapMutations } from "vuex";
 export default Vue.extend({
   props: ["typeId"],
   data: () => ({
@@ -78,6 +80,7 @@ export default Vue.extend({
     this.loadTypes();
   },
   methods: {
+    ...mapMutations(DIALOG,['setDialogResult']),
     loadTypes() {
       getTypes({page:0,count:0}).then((typesRes) => {
         if (typesRes.status) this.types = typesRes.result.types;
@@ -88,7 +91,12 @@ export default Vue.extend({
       if (isValid) {
         this.inAction = true
         addTypeConvert(this.convert).then((addRes) => {
-            
+            if(addRes.status){
+              this.setDialogResult({
+                status:true,
+                data:addRes.result.conversion
+              })
+            }
         }).finally(()=> this.inAction = false);
       }
     },
