@@ -6,7 +6,7 @@ import { baseURLs, inventory } from "../urls";
 
 const axios = apiCall(baseURLs(false))
 
-export const getInventories = (pagination:Pagination): Promise<ApiResponse> =>
+export const getInventories = (pagination: Pagination): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
             const request = await axios.get(inventory.inventories(pagination))
@@ -21,6 +21,17 @@ export const getPreviewInventories = (): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
             const request = await axios.get(inventory.preview)
+            const response = await request.data
+            resolve(response as ApiResponse)
+        } catch (error) {
+            reject(error)
+        }
+    })
+
+export const getAlertLimit = (pagination: Pagination): Promise<ApiResponse> =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const request = await axios.get(inventory.alertLimit(pagination))
             const response = await request.data
             resolve(response as ApiResponse)
         } catch (error) {
@@ -49,3 +60,4 @@ export const deleteInventory = (id: string): Promise<ApiResponse> =>
             reject(error)
         }
     })
+

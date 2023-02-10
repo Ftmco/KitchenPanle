@@ -20,11 +20,12 @@ export const type = {
     delete: (id: string) => `/MeasurementType/Delete?id=${id}`,
     conversions: (id: string) => `/MeasurementType/Conversions?id=${id}`,
     addConvert: '/MeasurementType/AddConvert',
-    removeConvert:(id:string)=> `/MeasurementType/RemoveConvert?id=${id}`
+    removeConvert: (id: string) => `/MeasurementType/RemoveConvert?id=${id}`
 }
 
 export const inventory = {
     inventories: (pagination: Pagination) => `/Inventory/Inventory?page=${pagination.page}&count=${pagination.count}`,
+    alertLimit: (pagination: Pagination) => `/Inventory/AlertLimit?page=${pagination.page}&count=${pagination.count}`,
     preview: '/Inventory/Preview',
     upsert: "/Inventory/Upsert",
     delete: (id: string) => `/Inventory/Delete?id=${id}`

@@ -37,7 +37,7 @@
         </template>
       </v-data-table>
       <div class="text-center">
-        <v-pagination v-model="page" :length="pageCount"></v-pagination>
+        <v-pagination v-model="page" :length="pageCount" @input="pageChange"/>
       </div>
     </v-card>
   </v-col>
@@ -45,10 +45,12 @@
   </template>
   
   <script lang="ts">
+import { getAlertLimit } from "@/api/apis/inventory.api";
+import { pageListSize } from "@/constants";
 import { getInventoryStatus } from "@/services/status";
 import Vue from "vue";
 import TableHeader from "../core/TableHeader.vue";
-import { TableHeaderModel } from "../models";
+import { defaultPage, Pagination, TableHeaderModel } from "../models";
 export default Vue.extend({
   components: { TableHeader },
   data: () => ({
@@ -109,11 +111,23 @@ export default Vue.extend({
     pageCount: 1,
   }),
   mounted() {
-    this.loadAlertLimit();
+    this.loadAlertLimit(defaultPage);
   },
   methods: {
-    loadAlertLimit() {
-      this.isLoading = false
+    pageChange(value: any) {
+      this.loadAlertLimit({ page: value - 1, count: pageListSize });
+    },
+    loadAlertLimit(pagination: Pagination) {
+      this.isLoading = true;
+      getAlertLimit(pagination)
+        .then((limitRes) => {
+          if (limitRes.status) {
+            this.page = pagination.page + 1;
+            this.inventories = limitRes.result.inventory;
+            this.pageCount = limitRes.result.pageCount + 1;
+          }
+        })
+        .finally(() => (this.isLoading = false));
     },
     getInventoryStatus,
   },
