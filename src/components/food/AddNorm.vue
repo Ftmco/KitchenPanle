@@ -94,7 +94,7 @@ export default Vue.extend({
       });
     },
     loadTypes() {
-      getTypes(0, 0).then((typeRes) => {
+      getTypes({page:0,count:0}).then((typeRes) => {
         if (typeRes.status) this.types = typeRes.result.types;
       });
     },

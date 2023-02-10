@@ -79,7 +79,7 @@ export default Vue.extend({
   },
   methods: {
     loadTypes() {
-      getTypes(0, 0).then((typesRes) => {
+      getTypes({page:0,count:0}).then((typesRes) => {
         if (typesRes.status) this.types = typesRes.result.types;
       });
     },

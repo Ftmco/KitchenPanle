@@ -123,12 +123,12 @@ export default Vue.extend({
     ...mapMutations(DIALOG, ["hideModal", "setDialogResult"]),
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
     loadTypes() {
-      getTypes(0, 0).then((typesRes) => {
+      getTypes({page:0,count:0}).then((typesRes) => {
         if (typesRes.status) this.types = typesRes.result.types;
       });
     },
     loadGroups() {
-      getGroups(0, 0).then((groupsRes) => {
+      getGroups({page:0,count:0}).then((groupsRes) => {
         if (groupsRes.status) {
           this.groups = groupsRes.result.groups.map((g: any) => {
             if (g.status == 0) return g;
