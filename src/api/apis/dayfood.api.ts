@@ -50,3 +50,14 @@ export const makeMeal = (meal: MakeMeal): Promise<ApiResponse> =>
             reject(error)
         }
     })
+
+export const getHistory = (pagination: Pagination): Promise<ApiResponse> =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const request = await axios.get(dayfood.history(pagination))
+            const response = await request.data
+            resolve(response as ApiResponse)
+        } catch (error) {
+            reject(error)
+        }
+    })
