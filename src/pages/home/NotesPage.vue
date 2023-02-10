@@ -53,7 +53,7 @@
         </template>
       </v-data-table>
       <div class="text-center">
-        <v-pagination v-model="page" :length="pageCount"></v-pagination>
+        <v-pagination v-model="page" :length="pageCount" @input="pageChange" />
       </div>
     </v-card>
   </v-col>
@@ -62,7 +62,14 @@
 <script lang="ts">
 import { deleteNote, getNotes } from "@/api/apis/note.api";
 import TableHeader from "@/components/core/TableHeader.vue";
-import { ConfirmDialog, Dialog, TableHeaderModel } from "@/components/models";
+import {
+  ConfirmDialog,
+  defaultPage,
+  Dialog,
+  Pagination,
+  TableHeaderModel,
+} from "@/components/models";
+import { pageListSize } from "@/constants";
 import { getNoteImportanceObj } from "@/services/status";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
@@ -126,17 +133,21 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadNotes();
+    this.loadNotes(defaultPage);
   },
   methods: {
     ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
-    loadNotes() {
-      getNotes(0, 15)
+    pageChange(value: any) {
+      this.loadNotes({ page: value - 1, count: pageListSize });
+    },
+    loadNotes(pagination: Pagination) {
+      getNotes(pagination)
         .then((notesRes) => {
           if (notesRes.status) {
+            this.page = pagination.page + 1;
             this.notes = notesRes.result.notes;
-            this.pageCount = notesRes.result.pageCount;
+            this.pageCount = notesRes.result.pageCount + 1;
           }
         })
         .finally(() => (this.isLoading = false));

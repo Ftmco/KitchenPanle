@@ -1,3 +1,4 @@
+import { Pagination } from "@/components/models";
 import { apiCall } from "..";
 import { ApiResponse } from "../models/api.model";
 import { UpsertInventory } from "../models/inventory.model";
@@ -5,10 +6,10 @@ import { baseURLs, inventory } from "../urls";
 
 const axios = apiCall(baseURLs(false))
 
-export const getInventories = (page: number, count: number): Promise<ApiResponse> =>
+export const getInventories = (pagination:Pagination): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
-            const request = await axios.get(inventory.inventories(page, count))
+            const request = await axios.get(inventory.inventories(pagination))
             const response = await request.data
             resolve(response as ApiResponse)
         } catch (error) {

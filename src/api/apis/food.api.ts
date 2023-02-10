@@ -1,3 +1,4 @@
+import { Pagination } from "@/components/models";
 import { apiCall } from "..";
 import { ApiResponse } from "../models/api.model";
 import { AddNorm, UpsertFood } from "../models/food.model";
@@ -6,10 +7,10 @@ import { baseURLs, food, norm } from "../urls";
 
 const axios = apiCall(baseURLs(false))
 
-export const getFoods = (page: number, count: number): Promise<ApiResponse> =>
+export const getFoods = (pagination:Pagination): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
-            const request = await axios.get(food.foods(page, count))
+            const request = await axios.get(food.foods(pagination))
             const response = await request.data
             resolve(response as ApiResponse)
         } catch (error) {

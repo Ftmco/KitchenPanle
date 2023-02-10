@@ -1,3 +1,4 @@
+import { Pagination } from "@/components/models";
 import { apiCall } from "..";
 import { ApiResponse } from "../models/api.model";
 import { TypeConvert } from "../models/inventory.model";
@@ -5,10 +6,10 @@ import { baseURLs, type } from "../urls";
 
 const axios = apiCall(baseURLs(false))
 
-export const getTypes = (page: number, count: number): Promise<ApiResponse> =>
+export const getTypes = (pagination:Pagination): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
-            const request = await axios.get(type.types(page, count))
+            const request = await axios.get(type.types(pagination))
             const response = await request.data
             resolve(response as ApiResponse)
         } catch (error) {
