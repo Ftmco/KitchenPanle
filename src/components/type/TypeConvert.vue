@@ -113,22 +113,20 @@ export default Vue.extend({
     dialogResult(result) {
       if (result != undefined && result.status) {
         this.conversions.push(result.data);
+        this.newConvert = false;
       }
-    },
-    confirmDialogResult(result) {
-      if (result.agree) this.deleteConfirm(result.data);
     },
   },
   created() {
     this.loadConversions();
   },
   methods: {
-    ...mapMutations(DIALOG, ["showConfirm"]),
     loadConversions() {
       this.isLoading = true;
       getTypeConversions(this.type.id)
         .then((convertRes) => {
-          if (convertRes.status) this.conversions = convertRes.result.conversions;
+          if (convertRes.status)
+            this.conversions = convertRes.result.conversions;
         })
         .finally(() => (this.isLoading = false));
     },
@@ -136,19 +134,9 @@ export default Vue.extend({
       this.newConvert = !this.newConvert;
     },
     removeConvert(item: any) {
-      const confirm: ConfirmDialog = {
-        title: "حذف تبدیل",
-        text: ` آیا از حذف ${item.fromType.name} مطمئن هستید؟`,
-        agreeText: "حذف",
-        disagreeText: "لغو",
-        data: item.id,
-      };
-      this.showConfirm(confirm);
-    },
-    deleteConfirm(data: any) {
-      deleteTypeConvert(data).then((delRes) => {
+      deleteTypeConvert(item.id).then((delRes) => {
         if (delRes.status) {
-          let index = this.conversions.findIndex((c) => c.id == data);
+          let index = this.conversions.findIndex((c) => c.id == item.id);
           if (index != -1) this.conversions.splice(index, 1);
         }
       });
