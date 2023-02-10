@@ -73,7 +73,7 @@
         </template>
       </v-data-table>
       <div class="text-center">
-        <v-pagination v-model="page" :length="pageCount"></v-pagination>
+        <v-pagination v-model="page" :length="pageCount" @input="pageChange" />
       </div>
     </v-card>
   </v-col>
@@ -82,7 +82,14 @@
 <script lang="ts">
 import { deleteFood, getFoods } from "@/api/apis/food.api";
 import TableHeader from "@/components/core/TableHeader.vue";
-import { ConfirmDialog, Dialog, TableHeaderModel } from "@/components/models";
+import {
+  ConfirmDialog,
+  defaultPage,
+  Dialog,
+  Pagination,
+  TableHeaderModel,
+} from "@/components/models";
+import { pageListSize } from "@/constants";
 import router from "@/router";
 import { getBaseStatusObj } from "@/services/status";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
@@ -147,16 +154,20 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadFoods();
+    this.loadFoods(defaultPage);
   },
   methods: {
     ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
-    loadFoods() {
+    pageChange(value: any) {
+      this.loadFoods({ page: value - 1, count: pageListSize });
+    },
+    loadFoods(pagination: Pagination) {
       this.isLoading = true;
-      getFoods(0, 20)
+      getFoods(pagination)
         .then((foodsRes) => {
           if (foodsRes.status) {
+            this.page = pagination.page + 1;
             this.pageCount = foodsRes.result.pageCount + 1;
             this.foods = foodsRes.result.foods;
           }

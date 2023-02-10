@@ -142,6 +142,7 @@ export default Vue.extend({
       this.loadNotes({ page: value - 1, count: pageListSize });
     },
     loadNotes(pagination: Pagination) {
+      this.isLoading = true;
       getNotes(pagination)
         .then((notesRes) => {
           if (notesRes.status) {

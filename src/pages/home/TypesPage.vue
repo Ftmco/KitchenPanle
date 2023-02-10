@@ -55,7 +55,7 @@
         </template>
       </v-data-table>
       <div class="text-center">
-        <v-pagination v-model="page" :length="pageCount"></v-pagination>
+        <v-pagination v-model="page" :length="pageCount" @input="pageChange" />
       </div>
     </v-card>
   </v-col>
@@ -64,7 +64,14 @@
 <script lang="ts">
 import { deleteType, getTypes } from "@/api/apis/type.api";
 import TableHeader from "@/components/core/TableHeader.vue";
-import { ConfirmDialog, Dialog, TableHeaderModel } from "@/components/models";
+import {
+  ConfirmDialog,
+  defaultPage,
+  Dialog,
+  Pagination,
+  TableHeaderModel,
+} from "@/components/models";
+import { pageListSize } from "@/constants";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
 import { mapMutations, mapState } from "vuex";
@@ -115,15 +122,20 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadTypes();
+    this.loadTypes(defaultPage);
   },
   methods: {
     ...mapMutations(DIALOG, ["showModal", "hideModal", "showConfirm"]),
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
-    loadTypes() {
-      getTypes(0, 20)
+    pageChange(value: any) {
+      this.loadTypes({ page: value - 1, count: pageListSize });
+    },
+    loadTypes(pagination: Pagination) {
+      this.isLoading = true;
+      getTypes(pagination)
         .then((typesRes) => {
           if (typesRes.status) {
+            this.page = pagination.page + 1;
             this.pageCount = typesRes.result.pageCount + 1;
             this.types = typesRes.result.types;
           }
@@ -159,7 +171,7 @@ export default Vue.extend({
         color: "info",
         title: `تبدیل واحد ${item.name}`,
         content: {
-          component: ()=> import("@/components/type/TypeConvert.vue"),
+          component: () => import("@/components/type/TypeConvert.vue"),
           props: {
             type: item,
           },

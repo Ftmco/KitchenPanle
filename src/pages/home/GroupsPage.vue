@@ -140,11 +140,11 @@ export default Vue.extend({
       this.loadGroups({ page: value - 1, count: pageListSize });
     },
     loadGroups(pagination: Pagination) {
-      this.page = pagination.page + 1;
       this.isLoading = true;
-      getGroups(pagination.page, pagination.count)
+      getGroups(pagination)
         .then((groupsRes) => {
           if (groupsRes.status) {
+            this.page = pagination.page + 1;
             this.groups = groupsRes.result.groups;
             this.pageCount = groupsRes.result.pageCount + 1;
           }
