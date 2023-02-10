@@ -9,11 +9,7 @@ const _confing: AxiosRequestConfig = {
     headers: _headers
 }
 
-export const changeConfigHeader = (key: any, value: string) => {
-    _headers[key] = value;
-};
-
-export const apiCall = (baseUrl: string, headers: [{ key: string, value: string }] = [{ key: "", value: "" }]) => {
+export const apiCall = (baseUrl: string, headers: Array<ApiHeader> = [{ key: '', value: '' }]) => {
     _confing.baseURL = baseUrl
     headers.forEach((header) => {
         if (header.key != "")
@@ -22,4 +18,7 @@ export const apiCall = (baseUrl: string, headers: [{ key: string, value: string 
     return Axios.create(_confing)
 }
 
-
+export interface ApiHeader {
+    key: string
+    value: string
+}
