@@ -22,4 +22,5 @@ export interface UpsertDayFood {
 export interface MakeMeal {
     id: string
     count: number
+    description:string
 }
