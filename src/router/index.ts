@@ -59,6 +59,16 @@ const routes: Array<RouteConfig> = [
                 }),
             },
             {
+                path: 'foods/report',
+                name: 'FoodReport',
+                component: () => import("@/pages/food/Report.vue"),
+                meta: (route: Route) => ({
+                    title: 'گزارش غذا',
+                    route,
+                    hasBack: true
+                }),
+            },
+            {
                 path: 'days',
                 name: 'Days',
                 component: () => import("@/pages/home/DaysPage.vue"),
