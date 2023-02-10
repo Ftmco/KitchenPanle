@@ -4,6 +4,7 @@
       <table-header
         title="یادداشت ها"
         newTitle="یادداشت جدید"
+        :hasNewAction="true"
         :newAction="addNote"
         :reloadAction="loadNotes"
       >
