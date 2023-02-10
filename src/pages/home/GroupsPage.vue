@@ -122,7 +122,7 @@ export default Vue.extend({
   watch: {
     dialogResult(result) {
       if (result != undefined && result.status) {
-        this.findAndRemoveGroup(result.data.id, true);
+        this.findAndRemoveGroup(result.data.id);
         this.groups.push(result.data);
       }
     },
@@ -187,16 +187,14 @@ export default Vue.extend({
     },
     deleteConfirm(id: string) {
       deleteGroup(id).then((deleteRes) => {
-        if (deleteRes.status) this.findAndRemoveGroup(id, false);
+        if (deleteRes.status) this.findAndRemoveGroup(id);
         this.showSnackbar(deleteRes.title);
       });
     },
-    findAndRemoveGroup(id: string, remove: boolean) {
+    findAndRemoveGroup(id: string) {
       let index = this.groups.findIndex((g) => g.id == id);
       if (index != -1) {
-        let group = this.groups[index];
         this.groups.splice(index, 1);
-        if (!remove) this.groups.push({ ...group, status: 2 });
       }
     },
     getBaseStatusObj,
