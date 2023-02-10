@@ -39,14 +39,21 @@
 </template>
 
 <script lang="ts">
+import { getHistory } from "@/api/apis/dayfood.api";
 import TableHeader from "@/components/core/TableHeader.vue";
-import { TableHeaderModel } from "@/components/models";
+import { defaultPage, Pagination, TableHeaderModel } from "@/components/models";
 import Vue from "vue";
 export default Vue.extend({
   components: { TableHeader },
   data: () => ({
     reports: [] as Array<any>,
     headers: [
+      {
+        text: "وعده",
+        align: "center",
+        sortable: true,
+        value: "meal",
+      },
       {
         text: "غذا",
         align: "center",
@@ -77,6 +84,12 @@ export default Vue.extend({
         sortable: true,
         value: "food.type",
       },
+      {
+        text: "توضیحات",
+        align: "center",
+        sortable: true,
+        value: "description",
+      },
     ] as Array<TableHeaderModel>,
     isLoading: true,
     search: "",
@@ -84,11 +97,20 @@ export default Vue.extend({
     page: 1,
   }),
   mounted() {
-    this.loadReports();
+    this.loadReports(defaultPage);
   },
   methods: {
-    loadReports() {
-
+    loadReports(pagination: Pagination) {
+      this.isLoading = true;
+      getHistory(pagination)
+        .then((reportRes) => {
+          if (reportRes.status) {
+            this.page = pagination.page + 1;
+            this.pageCount = reportRes.result.pageCount + 1;
+            this.reports = reportRes.result.history;
+          }
+        })
+        .finally(() => (this.isLoading = false));
     },
   },
 });
