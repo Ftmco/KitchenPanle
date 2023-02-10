@@ -146,11 +146,11 @@ export default Vue.extend({
       this.loadDaysFoods({ page: value - 1, count: pageListSize });
     },
     loadDaysFoods(pagination: Pagination) {
-      this.page = pagination.page + 1;
       this.isLoading = true;
       getDaysFoods(pagination)
         .then((foodsRes) => {
           if (foodsRes.status) {
+            this.page = pagination.page + 1;
             this.daysFoods = foodsRes.result.dayFoods;
             this.pageCount = foodsRes.result.pageCount + 1;
           }
