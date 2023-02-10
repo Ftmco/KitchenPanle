@@ -1,3 +1,5 @@
+import { pageListSize } from "@/constants";
+
 export interface Dialog {
     title: string;
     color: string;
@@ -35,6 +37,11 @@ export interface TableHeaderModel {
 }
 
 export interface Pagination {
-    page: number 
-    count: number
+    page: number
+    count: number 
+}
+
+export const defaultPage: Pagination = {
+    page: 0,
+    count: pageListSize,
 }
