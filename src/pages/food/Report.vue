@@ -32,7 +32,7 @@
         </template>
       </v-data-table>
       <div class="text-center">
-        <v-pagination v-model="page" :length="pageCount"></v-pagination>
+        <v-pagination v-model="page" :length="pageCount" @input="pageChange"/>
       </div>
     </v-card>
   </v-col>
@@ -42,6 +42,7 @@
 import { getHistory } from "@/api/apis/dayfood.api";
 import TableHeader from "@/components/core/TableHeader.vue";
 import { defaultPage, Pagination, TableHeaderModel } from "@/components/models";
+import { pageListSize } from "@/constants";
 import Vue from "vue";
 export default Vue.extend({
   components: { TableHeader },
@@ -100,6 +101,9 @@ export default Vue.extend({
     this.loadReports(defaultPage);
   },
   methods: {
+    pageChange(value: any) {
+      this.loadReports({ page: value - 1, count: pageListSize });
+    },
     loadReports(pagination: Pagination) {
       this.isLoading = true;
       getHistory(pagination)
@@ -107,7 +111,7 @@ export default Vue.extend({
           if (reportRes.status) {
             this.page = pagination.page + 1;
             this.pageCount = reportRes.result.pageCount + 1;
-            this.reports = reportRes.result.history;
+            this.reports = reportRes.result.histories;
           }
         })
         .finally(() => (this.isLoading = false));
