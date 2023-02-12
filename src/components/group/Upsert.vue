@@ -14,19 +14,6 @@
           />
         </v-col>
         <v-col cols="12">
-          <v-select
-            v-model="group.status"
-            label="وضعیت"
-            placeholder="وضعیت"
-            outlined
-            clearable
-            :items="status"
-            item-value="value"
-            item-text="title"
-            class="rounded-lg"
-          ></v-select>
-        </v-col>
-        <v-col cols="12">
           <v-btn
             :loading="upserting"
             block
@@ -57,7 +44,6 @@ export default Vue.extend({
     group: {} as UpsertGroup,
     rules: rules,
     upserting: false,
-    status: status,
   }),
   mounted() {
     this.setGroup();
@@ -70,7 +56,6 @@ export default Vue.extend({
         this.group = {
           id: this.updateGroup.id,
           name: this.updateGroup.name,
-          status: this.updateGroup.status,
         };
       }
     },

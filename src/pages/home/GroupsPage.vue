@@ -31,11 +31,6 @@
         no-results-text="موردی یافت نشد"
         hide-default-footer
       >
-        <template v-slot:item.status="{ item }">
-          <v-chip :color="getBaseStatusObj(item.status).color">
-            {{ getBaseStatusObj(item.status).title }}
-          </v-chip>
-        </template>
         <template v-slot:item.actions="{ item }">
           <v-row>
             <v-col>
@@ -74,7 +69,6 @@ import {
   TableHeaderModel,
 } from "@/components/models";
 import { pageListSize } from "@/constants";
-import { getBaseStatusObj } from "@/services/status";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
 import { mapMutations, mapState } from "vuex";
@@ -86,12 +80,6 @@ export default Vue.extend({
       {
         text: "نام",
         value: "name",
-        align: "start",
-        sortable: true,
-      },
-      {
-        text: "وضیعت",
-        value: "status",
         align: "start",
         sortable: true,
       },
@@ -197,7 +185,6 @@ export default Vue.extend({
         this.groups.splice(index, 1);
       }
     },
-    getBaseStatusObj,
   },
 });
 </script>
