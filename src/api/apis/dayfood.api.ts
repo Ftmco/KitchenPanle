@@ -2,7 +2,7 @@ import { Pagination } from "@/components/models";
 import { apiCall } from "..";
 import { ApiResponse } from "../models/api.model";
 import { MakeMeal, UpsertDayFood } from "../models/food.model";
-import { baseURLs, dayfood, history, report } from "../urls";
+import { baseURLs, dayfood,  report } from "../urls";
 
 
 const axios = apiCall(baseURLs(false))
