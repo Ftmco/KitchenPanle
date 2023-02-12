@@ -31,7 +31,7 @@ export const addDay = (add: AddDay): Promise<ApiResponse> =>
 export const deleteDay = (id: string): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
-            const request = await axios.delete(day.delete(id))
+            const request = await axios.get(day.delete(id))
             const response = await request.data
             resolve(response as ApiResponse)
         } catch (error) {

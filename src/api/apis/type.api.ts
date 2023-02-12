@@ -31,7 +31,7 @@ export const upsertType = (upsert: any): Promise<ApiResponse> =>
 export const deleteType = (id: any): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
-            const request = await axios.delete(type.delete(id))
+            const request = await axios.get(type.delete(id))
             const response = await request.data
             resolve(response as ApiResponse)
         } catch (error) {
@@ -66,7 +66,7 @@ export const addTypeConvert = (convert: TypeConvert): Promise<ApiResponse> =>
 export const deleteTypeConvert = (id:string): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
-            const request = await axios.delete(type.removeConvert(id))
+            const request = await axios.get(type.removeConvert(id))
             const response = await request.data
             resolve(response as ApiResponse)
         } catch (error) {

@@ -31,7 +31,7 @@ export const upsertNote = (upsert: UpsertNote): Promise<ApiResponse> =>
 export const deleteNote = (id: string): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
-            const request = await axios.delete(note.delete(id))
+            const request = await axios.get(note.delete(id))
             const response = await request.data
             resolve(response as ApiResponse)
         } catch (error) {

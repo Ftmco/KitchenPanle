@@ -32,7 +32,7 @@ export const upsertFood = (upsert: UpsertFood): Promise<ApiResponse> =>
 export const deleteFood = (id: string): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
-            const request = await axios.delete(food.delete(id))
+            const request = await axios.get(food.delete(id))
             const response = await request.data
             resolve(response as ApiResponse)
         } catch (error) {
@@ -65,7 +65,7 @@ export const addNorm = (add: AddNorm): Promise<ApiResponse> =>
 export const removeNorm = (id: string): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
-            const request = await axios.delete(norm.delete(id))
+            const request = await axios.get(norm.delete(id))
             const response = await request.data
             resolve(response as ApiResponse)
         } catch (error) {

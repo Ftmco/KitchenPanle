@@ -32,7 +32,7 @@ export const upsertDayFood = (upsert: UpsertDayFood): Promise<ApiResponse> =>
 export const deleteDayFood = (id: string): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
-            const request = await axios.delete(dayfood.delete(id))
+            const request = await axios.get(dayfood.delete(id))
             const response = await request.data
             resolve(response as ApiResponse)
         } catch (error) {

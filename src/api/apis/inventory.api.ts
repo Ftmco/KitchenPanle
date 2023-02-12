@@ -53,7 +53,7 @@ export const upsertInventory = (upsert: UpsertInventory): Promise<ApiResponse> =
 export const deleteInventory = (id: string): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
-            const request = await axios.delete(inventory.delete(id))
+            const request = await axios.get(inventory.delete(id))
             const response = await request.data
             resolve(response as ApiResponse)
         } catch (error) {

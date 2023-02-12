@@ -33,7 +33,7 @@ export const upsertGroup = (upsert: UpsertGroup): Promise<ApiResponse> => {
 export const deleteGroup = (groupId: string): Promise<ApiResponse> => {
     return new Promise(async (resolve, reject) => {
         try {
-            const request = await axios.delete(group.delete(groupId))
+            const request = await axios.get(group.delete(groupId))
             const response = await request.data
             resolve(response as ApiResponse)
         } catch (error) {
