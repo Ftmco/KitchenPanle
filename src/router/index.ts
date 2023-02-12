@@ -89,7 +89,17 @@ const routes: Array<RouteConfig> = [
                 }),
             },
             {
-                path: 'inventoryType',
+                path: 'inventory/report',
+                name: 'InventoryReport',
+                component: () => import("@/pages/inventory/Report.vue"),
+                meta: (route: Route) => ({
+                    title: 'گزارش انبار',
+                    route,
+                    hasBack: true
+                }),
+            },
+            {
+                path: 'inventory/type',
                 name: 'InventoryType',
                 component: () => import("@/pages/home/TypesPage.vue"),
                 meta: (route: Route) => ({

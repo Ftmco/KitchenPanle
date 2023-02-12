@@ -49,6 +49,12 @@ export const navigationItems = [
                 title: 'نوع موجودی ها',
                 icon: 'mdi-variable',
                 to: '/tabs/inventoryType'
+            },
+            {
+                id: 34,
+                title: 'گزارش انبار',
+                icon: 'mdi-newspaper',
+                to: '/tabs/inventory/report',
             }
         ],
     },
