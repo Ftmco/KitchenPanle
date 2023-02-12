@@ -145,7 +145,7 @@ export default Vue.extend({
           description: this.updateInventory.description,
           typeId: this.updateInventory.type.id,
           value: this.updateInventory.value,
-          groupId: this.updateInventory.groupId,
+          groupId: this.updateInventory.group.id,
         };
       }
     },
