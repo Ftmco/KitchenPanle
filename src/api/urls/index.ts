@@ -51,8 +51,12 @@ export const day = {
 
 export const dayfood = {
     daysFoods: (pagination: Pagination) => `/DayFood/DaysFoods?page=${pagination.page}&count=${pagination.count}`,
-    history: (pagination: Pagination) => `/FoodHistory/FoodHistories?page=${pagination.page}&count=${pagination.count}`,
     upsert: "/DayFood/Upsert",
     delete: (id: string) => `/DayFood/Delete?id=${id}`,
     makeMeal: '/DayFood/MakeMeal'
+}
+
+export const report = {
+    foodHistory: (pagination: Pagination) => `/History/FoodHistories?page=${pagination.page}&count=${pagination.count}`,
+    inventoryHistory: (pagination: Pagination) => `/History/InventoryHistories?page=${pagination.page}&count=${pagination.count}`,
 }
