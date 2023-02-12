@@ -2,7 +2,7 @@ import { Pagination } from "@/components/models";
 import { apiCall } from "..";
 import { ApiResponse } from "../models/api.model";
 import { MakeMeal, UpsertDayFood } from "../models/food.model";
-import { baseURLs, dayfood } from "../urls";
+import { baseURLs, dayfood, history, report } from "../urls";
 
 
 const axios = apiCall(baseURLs(false))
@@ -54,7 +54,7 @@ export const makeMeal = (meal: MakeMeal): Promise<ApiResponse> =>
 export const getHistory = (pagination: Pagination): Promise<ApiResponse> =>
     new Promise(async (resolve, reject) => {
         try {
-            const request = await axios.get(dayfood.history(pagination))
+            const request = await axios.get(report.foodHistory(pagination))
             const response = await request.data
             resolve(response as ApiResponse)
         } catch (error) {
