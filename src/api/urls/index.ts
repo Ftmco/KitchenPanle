@@ -58,5 +58,5 @@ export const dayfood = {
 
 export const report = {
     foodHistory: (pagination: Pagination) => `/History/FoodHistories?page=${pagination.page}&count=${pagination.count}`,
-    inventoryHistory: (pagination: Pagination) => `/History/InventoryHistories?page=${pagination.page}&count=${pagination.count}`,
+    inventoryHistory: (pagination: Pagination) => `/History/InventoryHistory?page=${pagination.page}&count=${pagination.count}`,
 }
