@@ -2,7 +2,7 @@ import { Pagination } from "@/components/models";
 import { apiCall } from "..";
 import { ApiResponse } from "../models/api.model";
 import { UpsertInventory } from "../models/inventory.model";
-import { baseURLs, inventory } from "../urls";
+import { baseURLs, inventory, report } from "../urls";
 
 const axios = apiCall(baseURLs(false))
 
@@ -61,3 +61,13 @@ export const deleteInventory = (id: string): Promise<ApiResponse> =>
         }
     })
 
+    export const getHistory = (pagination: Pagination): Promise<ApiResponse> =>
+    new Promise(async (resolve, reject) => {
+        try {
+            const request = await axios.get(report.inventoryHistory(pagination))
+            const response = await request.data
+            resolve(response as ApiResponse)
+        } catch (error) {
+            reject(error)
+        }
+    })
