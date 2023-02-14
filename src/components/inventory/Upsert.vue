@@ -64,7 +64,7 @@
           />
         </v-col>
 
-        <v-col cols="12" >
+        <v-col cols="12">
           <v-textarea
             v-model="inventory.description"
             outlined
@@ -110,7 +110,7 @@ export default Vue.extend({
   data: () => ({
     rules: rules,
     types: [],
-    groups: [],
+    groups: [] as Array<any>,
     inventory: {} as UpsertInventory,
     inAction: false,
   }),
@@ -123,16 +123,14 @@ export default Vue.extend({
     ...mapMutations(DIALOG, ["hideModal", "setDialogResult"]),
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
     loadTypes() {
-      getTypes({page:0,count:0}).then((typesRes) => {
+      getTypes({ page: 0, count: 0 }).then((typesRes) => {
         if (typesRes.status) this.types = typesRes.result.types;
       });
     },
     loadGroups() {
-      getGroups({page:0,count:0}).then((groupsRes) => {
+      getGroups({ page: 0, count: 0 }).then((groupsRes) => {
         if (groupsRes.status) {
-          this.groups = groupsRes.result.groups.map((g: any) => {
-            if (g.status == 0) return g;
-          });
+          this.groups = groupsRes.result.groups;
         }
       });
     },
