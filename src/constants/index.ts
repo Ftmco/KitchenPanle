@@ -48,7 +48,7 @@ export const navigationItems = [
                 id: 33,
                 title: 'نوع موجودی ها',
                 icon: 'mdi-variable',
-                to: '/tabs/inventoryType'
+                to: '/tabs/inventory/type'
             },
             {
                 id: 34,
