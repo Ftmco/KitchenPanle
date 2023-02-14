@@ -54,10 +54,16 @@ export default Vue.extend({
         value: "value",
       },
       {
-        text: "مقدار موجودی",
+        text: "موجودی قبلی",
         align: "center",
         sortable: true,
-        value: "inventoryValue",
+        value: "currentValue",
+      },
+      {
+        text: "موجودی جدید",
+        align: "center",
+        sortable: true,
+        value: "nextValue",
       },
     ] as Array<TableHeaderModel>,
   }),
