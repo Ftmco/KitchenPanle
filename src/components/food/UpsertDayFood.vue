@@ -122,7 +122,7 @@ export default Vue.extend({
       }
     },
     loadFoods() {
-      getFoods({page:0,count:0}).then((foodsRes) => {
+      getFoods({ page: 0, count: 0, q: "" }).then((foodsRes) => {
         if (foodsRes.status) this.foods = foodsRes.result.foods;
       });
     },

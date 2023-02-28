@@ -19,7 +19,6 @@
         :loading="isLoading"
         :headers="headers"
         :items="reports"
-        :search="search"
         no-data-text="نظری یافت نشد"
         loading-text="کمی صبر کنید..."
         no-results-text="موردی یافت نشد"
@@ -98,7 +97,7 @@ export default Vue.extend({
     page: 1,
   }),
   mounted() {
-    this.loadReports(defaultPage);
+    this.loadReports(defaultPage(""));
   },
   methods: {
     pageChange(value: any) {
