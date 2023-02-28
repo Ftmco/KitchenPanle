@@ -15,6 +15,7 @@
             label="جستجو"
             single-line
             hide-details
+            @input="searchInput"
           ></v-text-field>
         </template>
       </table-header>
@@ -25,7 +26,6 @@
         :loading="isLoading"
         :headers="headers"
         :items="foods"
-        :search="search"
         no-data-text="نظری یافت نشد"
         loading-text="کمی صبر کنید..."
         no-results-text="موردی یافت نشد"
@@ -135,6 +135,7 @@ export default Vue.extend({
     foods: [] as Array<any>,
     page: 1,
     pageCount: 1,
+    timeOut: -1,
   }),
   computed: {
     ...mapState(DIALOG, {
@@ -154,13 +155,23 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadFoods(defaultPage);
+    this.loadFoods(defaultPage(this.search));
   },
   methods: {
     ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
     pageChange(value: any) {
       this.loadFoods({ page: value - 1, count: pageListSize });
+    },
+    searchInput(value: string) {
+      if (value != "") {
+        if (this.timeOut != -1) {
+          clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(() => {
+          console.log(value);
+        }, 300);
+      }
     },
     loadFoods(pagination: Pagination) {
       this.isLoading = true;
