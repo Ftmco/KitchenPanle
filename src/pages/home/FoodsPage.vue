@@ -91,6 +91,7 @@ import {
 } from "@/components/models";
 import { pageListSize } from "@/constants";
 import router from "@/router";
+import { searchList } from "@/services/search";
 import { getBaseStatusObj } from "@/services/status";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
@@ -135,7 +136,6 @@ export default Vue.extend({
     foods: [] as Array<any>,
     page: 1,
     pageCount: 1,
-    timeOut: -1,
   }),
   computed: {
     ...mapState(DIALOG, {
@@ -164,14 +164,7 @@ export default Vue.extend({
       this.loadFoods({ page: value - 1, count: pageListSize });
     },
     searchInput(value: string) {
-      if (value != "") {
-        if (this.timeOut != -1) {
-          clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(() => {
-          console.log(value);
-        }, 300);
-      }
+     searchList(value,this.loadFoods);
     },
     loadFoods(pagination: Pagination) {
       this.isLoading = true;
