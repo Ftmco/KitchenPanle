@@ -15,6 +15,7 @@
             label="جستجو"
             single-line
             hide-details
+            @input="searchInpput"
           ></v-text-field>
         </template>
       </table-header>
@@ -25,7 +26,7 @@
         :loading="isLoading"
         :headers="headers"
         :items="notes"
-        :search="search"
+       
         no-data-text="یادداشتی یافت نشد"
         loading-text="کمی صبر کنید..."
         no-results-text="موردی یافت نشد"
@@ -71,6 +72,7 @@ import {
   TableHeaderModel,
 } from "@/components/models";
 import { pageListSize } from "@/constants";
+import { searchList } from "@/services/search";
 import { getNoteImportanceObj } from "@/services/status";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
@@ -134,13 +136,16 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadNotes(defaultPage);
+    this.loadNotes(defaultPage(this.search));
   },
   methods: {
     ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
     pageChange(value: any) {
       this.loadNotes({ page: value - 1, count: pageListSize });
+    },
+    searchInput(value: string) {
+     searchList(value,this.loadNotes);
     },
     loadNotes(pagination: Pagination) {
       this.isLoading = true;

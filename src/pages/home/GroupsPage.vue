@@ -15,6 +15,7 @@
             label="جستجو"
             single-line
             hide-details
+            @input="searchInput"
           ></v-text-field>
         </template>
       </table-header>
@@ -24,8 +25,7 @@
       <v-data-table
         :loading="isLoading"
         :headers="headers"
-        :items="groups"
-        :search="search"
+        :items="groups"        
         no-data-text="گروهی یافت نشد"
         loading-text="کمی صبر کنید..."
         no-results-text="موردی یافت نشد"
@@ -64,11 +64,13 @@ import { deleteGroup, getGroups } from "@/api/apis/group.api";
 import TableHeader from "@/components/core/TableHeader.vue";
 import {
   ConfirmDialog,
+  defaultPage,
   Dialog,
   Pagination,
   TableHeaderModel,
 } from "@/components/models";
 import { pageListSize } from "@/constants";
+import { searchList } from "@/services/search";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
 import { mapMutations, mapState } from "vuex";
@@ -119,13 +121,16 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadGroups({ page: this.page - 1, count: pageListSize });
+    this.loadGroups(defaultPage(this.search));
   },
   methods: {
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
     ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
     pageChange(value: any) {
       this.loadGroups({ page: value - 1, count: pageListSize });
+    },
+    searchInput(value: string) {
+     searchList(value,this.loadGroups);
     },
     loadGroups(pagination: Pagination) {
       this.isLoading = true;

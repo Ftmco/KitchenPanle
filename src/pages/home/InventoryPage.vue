@@ -15,6 +15,7 @@
             label="جستجو"
             single-line
             hide-details
+            @input="searchInput"
           ></v-text-field>
         </template>
       </table-header>
@@ -24,8 +25,7 @@
       <v-data-table
         :loading="isLoading"
         :headers="headers"
-        :items="inventories"
-        :search="search"
+        :items="inventories"        
         no-data-text="موجودی یافت نشد"
         loading-text="کمی صبر کنید..."
         no-results-text="موردی یافت نشد"
@@ -71,6 +71,7 @@ import {
   TableHeaderModel,
 } from "@/components/models";
 import { pageListSize } from "@/constants";
+import { searchList } from "@/services/search";
 import { getBaseStatusObj, getInventoryStatus } from "@/services/status";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
@@ -158,13 +159,16 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadInventories(defaultPage);
+    this.loadInventories(defaultPage(this.search));
   },
   methods: {
     ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
     pageChange(value: any) {
       this.loadInventories({ page: value - 1, count: pageListSize });
+    },
+    searchInput(value: string) {
+     searchList(value,this.loadInventories);
     },
     loadInventories(pagination: Pagination) {
       this.isLoading = true;
