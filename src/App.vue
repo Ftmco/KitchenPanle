@@ -18,6 +18,13 @@ export default Vue.extend({
         (res.dark ? "Dark" : "Light").toString();
       this.$vuetify.theme.dark = theme == "Dark";
     });
+    this.setDir();
+  },
+  methods: {
+    setDir() {
+      const dir = localStorage.getItem("dir")?.toString();
+      if (dir != null) this.$vuetify.rtl = dir == "RTL";
+    },
   },
 });
 </script>
