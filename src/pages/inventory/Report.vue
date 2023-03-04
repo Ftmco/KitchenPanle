@@ -9,6 +9,7 @@
             label="جستجو"
             single-line
             hide-details
+            @input="searchInput"
           ></v-text-field>
         </template>
       </table-header>
@@ -109,21 +110,35 @@ export default Vue.extend({
     ] as Array<TableHeaderModel>,
   }),
   mounted() {
-    this.loadReports(defaultPage);
+    this.loadReports(defaultPage(""));
   },
   methods: {
     ...mapMutations(DIALOG, ["showModal"]),
     pageChange(value: any) {
-      this.loadReports({ page: value - 1, count: pageListSize });
+      this.loadReports({ page: value - 1, count: pageListSize, q: "" });
     },
-    loadReports(pagination: Pagination) {
+    searchInput(value: string) {
+      if (value != "") {
+        let timeOut = -1;
+        if (timeOut != -1) clearTimeout(timeOut);
+        timeOut = setTimeout(() => {
+          this.loadReports({ page: 0, count: 0, q: "" }, false);
+        }, 400);
+      }
+    },
+    loadReports(pagination: Pagination, setPage: boolean = true) {
       this.isLoading = true;
       getHistory(pagination)
         .then((reportRes) => {
           if (reportRes.status) {
-            this.page = pagination.page + 1;
-            this.pageCount = reportRes.result.pageCount + 1;
             this.reports = reportRes.result.histories;
+            if (setPage) {
+              this.page = pagination.page + 1;
+              this.pageCount = reportRes.result.pageCount + 1;
+            } else {
+              this.page = 1;
+              this.pageCount = 1;
+            }
           }
         })
         .finally(() => (this.isLoading = false));
