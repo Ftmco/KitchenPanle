@@ -1,7 +1,7 @@
 <template>
   <div>
     <weekly-plan />
-    <inventory-alert />
+    <inventory-alert v-if="showAlertLimitiation" @alertCount="alertCount" />
   </div>
 </template>
 
@@ -14,6 +14,13 @@ import Vue from "vue";
 export default Vue.extend({
   components: { AppSparkline, WeeklyPlan, InventoryAlert },
 
-  data: () => ({}),
+  data: () => ({
+    showAlertLimitiation: true,
+  }),
+  methods: {
+    alertCount(count: any) {
+      this.showAlertLimitiation = count.alertCount >= 1;
+    },
+  },
 });
 </script>

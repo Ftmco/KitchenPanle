@@ -128,6 +128,9 @@ export default Vue.extend({
         .then((limitRes) => {
           if (limitRes.status) {
             this.inventories = limitRes.result.inventory;
+            this.$emit("alertCount", {
+              alertCount: this.inventories.length,
+            });
             if (setPage) {
               this.page = pagination.page + 1;
               this.pageCount = limitRes.result.pageCount + 1;
