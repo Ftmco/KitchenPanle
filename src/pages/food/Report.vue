@@ -9,6 +9,7 @@
             label="جستجو"
             single-line
             hide-details
+            @input="searchInput"
           ></v-text-field>
         </template>
       </table-header>
@@ -19,6 +20,7 @@
         :loading="isLoading"
         :headers="headers"
         :items="reports"
+        :search="search"
         no-data-text="نظری یافت نشد"
         loading-text="کمی صبر کنید..."
         no-results-text="موردی یافت نشد"
@@ -31,7 +33,7 @@
         </template>
       </v-data-table>
       <div class="text-center">
-        <v-pagination v-model="page" :length="pageCount" @input="pageChange"/>
+        <v-pagination v-model="page" :length="pageCount" @input="pageChange" />
       </div>
     </v-card>
   </v-col>
@@ -101,16 +103,39 @@ export default Vue.extend({
   },
   methods: {
     pageChange(value: any) {
-      this.loadReports({ page: value - 1, count: pageListSize });
+      this.loadReports({ page: value - 1, count: pageListSize, q: "" });
     },
-    loadReports(pagination: Pagination) {
+    searchInput(value: string) {
+      if (value != "") {
+        let timeOut = -1;
+        if (timeOut != -1) clearTimeout(timeOut);
+        timeOut = setTimeout(() => {
+          this.loadReports(
+            {
+              count: 0,
+              page: 0,
+              q: "",
+            },
+            false
+          );
+        }, 400);
+      } else {
+        this.loadReports(defaultPage(""));
+      }
+    },
+    loadReports(pagination: Pagination, setPage: boolean = true) {
       this.isLoading = true;
       getHistory(pagination)
         .then((reportRes) => {
           if (reportRes.status) {
-            this.page = pagination.page + 1;
-            this.pageCount = reportRes.result.pageCount + 1;
             this.reports = reportRes.result.histories;
+            if (setPage) {
+              this.page = pagination.page + 1;
+              this.pageCount = reportRes.result.pageCount + 1;
+            } else {
+              this.page = 1;
+              this.pageCount = 1;
+            }
           }
         })
         .finally(() => (this.isLoading = false));
