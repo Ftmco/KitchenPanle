@@ -77,7 +77,7 @@ import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
 import { mapMutations, mapState } from "vuex";
 import TableHeader from "../core/TableHeader.vue";
-import { ConfirmDialog, Dialog, Pagination, TableHeaderModel } from "../models";
+import { ConfirmDialog, defaultPage, Dialog, Pagination, TableHeaderModel } from "../models";
 export default Vue.extend({
   components: { TableHeader },
   data: () => ({
@@ -137,13 +137,13 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadDaysFoods({ page: 0, count: pageListSize });
+    this.loadDaysFoods(defaultPage(""));
   },
   methods: {
     ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
     pageChange(value: any) {
-      this.loadDaysFoods({ page: value - 1, count: pageListSize });
+      this.loadDaysFoods({ page: value - 1, count: pageListSize,q:"" });
     },
     loadDaysFoods(pagination: Pagination) {
       this.isLoading = true;
