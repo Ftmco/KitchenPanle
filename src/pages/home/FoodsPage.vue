@@ -26,6 +26,7 @@
         :loading="isLoading"
         :headers="headers"
         :items="foods"
+        :search="search"
         no-data-text="نظری یافت نشد"
         loading-text="کمی صبر کنید..."
         no-results-text="موردی یافت نشد"
@@ -155,7 +156,7 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadFoods(defaultPage(this.search));
+    this.loadFoods(defaultPage);
   },
   methods: {
     ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
@@ -163,8 +164,8 @@ export default Vue.extend({
     pageChange(value: any) {
       this.loadFoods({ page: value - 1, count: pageListSize });
     },
-    searchInput(value: string) {
-     searchList(value,this.loadFoods);
+    searchInput() {
+     searchList(this.loadFoods);
     },
     loadFoods(pagination: Pagination) {
       this.isLoading = true;

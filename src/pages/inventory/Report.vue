@@ -65,6 +65,7 @@ import {
   TableHeaderModel,
 } from "@/components/models";
 import { pageListSize } from "@/constants";
+import { searchList } from "@/services/search";
 import { DIALOG } from "@/store/store_types";
 import Vue from "vue";
 import { mapMutations } from "vuex";
@@ -110,21 +111,15 @@ export default Vue.extend({
     ] as Array<TableHeaderModel>,
   }),
   mounted() {
-    this.loadReports(defaultPage(""));
+    this.loadReports(defaultPage);
   },
   methods: {
     ...mapMutations(DIALOG, ["showModal"]),
     pageChange(value: any) {
-      this.loadReports({ page: value - 1, count: pageListSize, q: "" });
+      this.loadReports({ page: value - 1, count: pageListSize, });
     },
-    searchInput(value: string) {
-      if (value != "") {
-        let timeOut = -1;
-        if (timeOut != -1) clearTimeout(timeOut);
-        timeOut = setTimeout(() => {
-          this.loadReports({ page: 0, count: 0, q: "" }, false);
-        }, 400);
-      }
+    searchInput() {
+      searchList(this.loadReports);
     },
     loadReports(pagination: Pagination, setPage: boolean = true) {
       this.isLoading = true;

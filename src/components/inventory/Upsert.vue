@@ -128,7 +128,7 @@ export default Vue.extend({
       });
     },
     loadGroups() {
-      getGroups({ page: 0, count: 0, q: "" }).then((groupsRes) => {
+      getGroups({ page: 0, count: 0, }).then((groupsRes) => {
         if (groupsRes.status) {
           this.groups = groupsRes.result.groups;
         }

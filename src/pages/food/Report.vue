@@ -44,6 +44,7 @@ import { getHistory } from "@/api/apis/dayfood.api";
 import TableHeader from "@/components/core/TableHeader.vue";
 import { defaultPage, Pagination, TableHeaderModel } from "@/components/models";
 import { pageListSize } from "@/constants";
+import { searchList } from "@/services/search";
 import Vue from "vue";
 export default Vue.extend({
   components: { TableHeader },
@@ -99,29 +100,14 @@ export default Vue.extend({
     page: 1,
   }),
   mounted() {
-    this.loadReports(defaultPage(""));
+    this.loadReports(defaultPage);
   },
   methods: {
     pageChange(value: any) {
-      this.loadReports({ page: value - 1, count: pageListSize, q: "" });
+      this.loadReports({ page: value - 1, count: pageListSize });
     },
-    searchInput(value: string) {
-      if (value != "") {
-        let timeOut = -1;
-        if (timeOut != -1) clearTimeout(timeOut);
-        timeOut = setTimeout(() => {
-          this.loadReports(
-            {
-              count: 0,
-              page: 0,
-              q: "",
-            },
-            false
-          );
-        }, 400);
-      } else {
-        this.loadReports(defaultPage(""));
-      }
+    searchInput() {
+      searchList(this.loadReports);
     },
     loadReports(pagination: Pagination, setPage: boolean = true) {
       this.isLoading = true;

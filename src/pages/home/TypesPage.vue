@@ -26,6 +26,7 @@
         :loading="isLoading"
         :headers="headers"
         :items="types"
+        :search="search"
         no-data-text="نوعی یافت نشد"
         loading-text="کمی صبر کنید..."
         no-results-text="موردی یافت نشد"
@@ -123,7 +124,7 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadTypes(defaultPage(this.search));
+    this.loadTypes(defaultPage);
   },
   methods: {
     ...mapMutations(DIALOG, ["showModal", "hideModal", "showConfirm"]),
@@ -131,17 +132,22 @@ export default Vue.extend({
     pageChange(value: any) {
       this.loadTypes({ page: value - 1, count: pageListSize });
     },
-    searchInput(value: string) {
-      searchList(value, this.loadTypes);
+    searchInput() {
+      searchList(this.loadTypes);
     },
-    loadTypes(pagination: Pagination) {
+    loadTypes(pagination: Pagination, setPage: boolean = true) {
       this.isLoading = true;
       getTypes(pagination)
         .then((typesRes) => {
           if (typesRes.status) {
-            this.page = pagination.page + 1;
-            this.pageCount = typesRes.result.pageCount + 1;
             this.types = typesRes.result.types;
+            if (setPage) {
+              this.page = pagination.page + 1;
+              this.pageCount = typesRes.result.pageCount + 1;
+            } else {
+              this.page = 1;
+              this.pageCount = 1;
+            }
           }
         })
         .finally(() => (this.isLoading = false));

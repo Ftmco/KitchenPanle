@@ -15,6 +15,7 @@
             label="جستجو"
             single-line
             hide-details
+            @input="searchInput"
           ></v-text-field>
         </template>
       </table-header>
@@ -73,11 +74,18 @@
 <script lang="ts">
 import { deleteDayFood, getDaysFoods } from "@/api/apis/dayfood.api";
 import { pageListSize } from "@/constants";
+import { searchList } from "@/services/search";
 import { DIALOG, SNACKBAR } from "@/store/store_types";
 import Vue from "vue";
 import { mapMutations, mapState } from "vuex";
 import TableHeader from "../core/TableHeader.vue";
-import { ConfirmDialog, defaultPage, Dialog, Pagination, TableHeaderModel } from "../models";
+import {
+  ConfirmDialog,
+  defaultPage,
+  Dialog,
+  Pagination,
+  TableHeaderModel,
+} from "../models";
 export default Vue.extend({
   components: { TableHeader },
   data: () => ({
@@ -137,22 +145,30 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadDaysFoods(defaultPage(""));
+    this.loadDaysFoods(defaultPage);
   },
   methods: {
     ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
     pageChange(value: any) {
-      this.loadDaysFoods({ page: value - 1, count: pageListSize,q:"" });
+      this.loadDaysFoods({ page: value - 1, count: pageListSize });
     },
-    loadDaysFoods(pagination: Pagination) {
+    searchInput() {
+      searchList(this.loadDaysFoods);
+    },
+    loadDaysFoods(pagination: Pagination, setPage: boolean = true) {
       this.isLoading = true;
       getDaysFoods(pagination)
         .then((foodsRes) => {
           if (foodsRes.status) {
-            this.page = pagination.page + 1;
             this.daysFoods = foodsRes.result.dayFoods;
-            this.pageCount = foodsRes.result.pageCount + 1;
+            if (setPage) {
+              this.pageCount = foodsRes.result.pageCount + 1;
+              this.page = pagination.page + 1;
+            } else {
+              this.page = 1;
+              this.pageCount = 1;
+            }
           }
         })
         .finally(() => (this.isLoading = false));

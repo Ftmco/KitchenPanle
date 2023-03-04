@@ -15,7 +15,7 @@
             label="جستجو"
             single-line
             hide-details
-            @input="searchInpput"
+            @input="searchInput"
           ></v-text-field>
         </template>
       </table-header>
@@ -26,7 +26,7 @@
         :loading="isLoading"
         :headers="headers"
         :items="notes"
-       
+        :search="search"
         no-data-text="یادداشتی یافت نشد"
         loading-text="کمی صبر کنید..."
         no-results-text="موردی یافت نشد"
@@ -136,7 +136,7 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadNotes(defaultPage(this.search));
+    this.loadNotes(defaultPage);
   },
   methods: {
     ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
@@ -144,17 +144,22 @@ export default Vue.extend({
     pageChange(value: any) {
       this.loadNotes({ page: value - 1, count: pageListSize });
     },
-    searchInput(value: string) {
-     searchList(value,this.loadNotes);
+    searchInput() {
+      searchList(this.loadNotes);
     },
-    loadNotes(pagination: Pagination) {
+    loadNotes(pagination: Pagination, setPage: boolean = true) {
       this.isLoading = true;
       getNotes(pagination)
         .then((notesRes) => {
           if (notesRes.status) {
-            this.page = pagination.page + 1;
             this.notes = notesRes.result.notes;
-            this.pageCount = notesRes.result.pageCount + 1;
+            if (setPage) {
+              this.pageCount = notesRes.result.pageCount + 1;
+              this.page = pagination.page + 1;
+            } else {
+              this.page = 1;
+              this.pageCount = 1;
+            }
           }
         })
         .finally(() => (this.isLoading = false));

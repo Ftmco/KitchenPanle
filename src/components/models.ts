@@ -39,11 +39,9 @@ export interface TableHeaderModel {
 export interface Pagination {
     page: number
     count: number
-    q?: string
 }
 
-export const defaultPage = (q?: string): Pagination => ({
+export const defaultPage: Pagination = {
     page: 0,
-    count: pageListSize,
-    q: q ?? ""
-})
+    count: pageListSize
+}

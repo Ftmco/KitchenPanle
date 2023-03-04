@@ -14,6 +14,7 @@
               label="جستجو"
               single-line
               hide-details
+              @input="searchInput"
             ></v-text-field>
           </template>
         </table-header>
@@ -47,6 +48,7 @@
   <script lang="ts">
 import { getAlertLimit } from "@/api/apis/inventory.api";
 import { pageListSize } from "@/constants";
+import { searchList } from "@/services/search";
 import { getInventoryStatus } from "@/services/status";
 import Vue from "vue";
 import TableHeader from "../core/TableHeader.vue";
@@ -111,20 +113,28 @@ export default Vue.extend({
     pageCount: 1,
   }),
   mounted() {
-    this.loadAlertLimit(defaultPage(""));
+    this.loadAlertLimit(defaultPage);
   },
   methods: {
     pageChange(value: any) {
       this.loadAlertLimit({ page: value - 1, count: pageListSize });
     },
-    loadAlertLimit(pagination: Pagination) {
+    searchInput() {
+      searchList(this.loadAlertLimit);
+    },
+    loadAlertLimit(pagination: Pagination, setPage: boolean = true) {
       this.isLoading = true;
       getAlertLimit(pagination)
         .then((limitRes) => {
           if (limitRes.status) {
-            this.page = pagination.page + 1;
             this.inventories = limitRes.result.inventory;
-            this.pageCount = limitRes.result.pageCount + 1;
+            if (setPage) {
+              this.page = pagination.page + 1;
+              this.pageCount = limitRes.result.pageCount + 1;
+            } else {
+              this.page = 1;
+              this.pageCount = 1;
+            }
           }
         })
         .finally(() => (this.isLoading = false));

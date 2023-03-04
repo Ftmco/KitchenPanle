@@ -25,7 +25,8 @@
       <v-data-table
         :loading="isLoading"
         :headers="headers"
-        :items="groups"        
+        :items="groups"
+        :search="search"
         no-data-text="گروهی یافت نشد"
         loading-text="کمی صبر کنید..."
         no-results-text="موردی یافت نشد"
@@ -121,7 +122,7 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadGroups(defaultPage(this.search));
+    this.loadGroups(defaultPage);
   },
   methods: {
     ...mapMutations(SNACKBAR, ["showSnackbar"]),
@@ -129,8 +130,8 @@ export default Vue.extend({
     pageChange(value: any) {
       this.loadGroups({ page: value - 1, count: pageListSize });
     },
-    searchInput(value: string) {
-     searchList(value,this.loadGroups);
+    searchInput() {
+      searchList(this.loadGroups);
     },
     loadGroups(pagination: Pagination) {
       this.isLoading = true;

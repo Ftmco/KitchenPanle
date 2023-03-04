@@ -25,7 +25,8 @@
       <v-data-table
         :loading="isLoading"
         :headers="headers"
-        :items="inventories"        
+        :items="inventories"
+        :search="search"
         no-data-text="موجودی یافت نشد"
         loading-text="کمی صبر کنید..."
         no-results-text="موردی یافت نشد"
@@ -159,7 +160,7 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadInventories(defaultPage(this.search));
+    this.loadInventories(defaultPage);
   },
   methods: {
     ...mapMutations(DIALOG, ["showModal", "showConfirm"]),
@@ -167,17 +168,22 @@ export default Vue.extend({
     pageChange(value: any) {
       this.loadInventories({ page: value - 1, count: pageListSize });
     },
-    searchInput(value: string) {
-     searchList(value,this.loadInventories);
+    searchInput() {
+      searchList(this.loadInventories);
     },
-    loadInventories(pagination: Pagination) {
+    loadInventories(pagination: Pagination, setPage: boolean = true) {
       this.isLoading = true;
       getInventories(pagination)
         .then((invRes) => {
           if (invRes.status) {
-            this.page = pagination.page + 1;
-            this.pageCount = invRes.result.pageCount + 1;
             this.inventories = invRes.result.inventory;
+            if (setPage) {
+              this.page = pagination.page + 1;
+              this.pageCount = invRes.result.pageCount + 1;
+            } else {
+              this.page = 1;
+              this.pageCount = 1;
+            }
           }
         })
         .finally(() => (this.isLoading = false));
