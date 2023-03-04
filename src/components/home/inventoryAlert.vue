@@ -111,7 +111,7 @@ export default Vue.extend({
     pageCount: 1,
   }),
   mounted() {
-    this.loadAlertLimit(defaultPage);
+    this.loadAlertLimit(defaultPage(""));
   },
   methods: {
     pageChange(value: any) {

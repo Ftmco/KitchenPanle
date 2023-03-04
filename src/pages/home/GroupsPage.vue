@@ -157,7 +157,7 @@ export default Vue.extend({
     },
     editGroup(item: any) {
       const upadte: Dialog = {
-        title: `ویرایش ${item.title}`,
+        title: `ویرایش ${item.name}`,
         color: "warning",
         content: {
           component: () => import("@/components/group/Upsert.vue"),
