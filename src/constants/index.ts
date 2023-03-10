@@ -70,12 +70,6 @@ export const navigationItems = [
         icon: 'mdi-note',
         to: '/tabs/notes'
     },
-    {
-        id: 6,
-        title: 'تنظیمات',
-        icon: 'mdi-cog',
-        to: '/tabs/settings'
-    },
 ]
 
 export const messages = {

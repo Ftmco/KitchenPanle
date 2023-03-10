@@ -118,6 +118,7 @@ const routes: Array<RouteConfig> = [
                     hasBack: true
                 }),
             },
+           
         ]
     },
 ];
