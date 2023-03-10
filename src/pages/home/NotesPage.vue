@@ -145,7 +145,7 @@ export default Vue.extend({
       this.loadNotes({ page: value - 1, count: pageListSize });
     },
     searchInput() {
-      searchList(this.loadNotes);
+      searchList(this.loadNotes,this.search);
     },
     loadNotes(pagination: Pagination, setPage: boolean = true) {
       this.isLoading = true;

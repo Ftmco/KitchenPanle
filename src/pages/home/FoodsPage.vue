@@ -165,7 +165,7 @@ export default Vue.extend({
       this.loadFoods({ page: value - 1, count: pageListSize });
     },
     searchInput() {
-     searchList(this.loadFoods);
+     searchList(this.loadFoods,this.search);
     },
     loadFoods(pagination: Pagination) {
       this.isLoading = true;

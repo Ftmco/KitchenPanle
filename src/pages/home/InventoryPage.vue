@@ -169,7 +169,7 @@ export default Vue.extend({
       this.loadInventories({ page: value - 1, count: pageListSize });
     },
     searchInput() {
-      searchList(this.loadInventories);
+      searchList(this.loadInventories,this.search);
     },
     loadInventories(pagination: Pagination, setPage: boolean = true) {
       this.isLoading = true;

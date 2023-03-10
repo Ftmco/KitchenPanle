@@ -120,7 +120,7 @@ export default Vue.extend({
       this.loadAlertLimit({ page: value - 1, count: pageListSize });
     },
     searchInput() {
-      searchList(this.loadAlertLimit);
+      searchList(this.loadAlertLimit,this.search);
     },
     loadAlertLimit(pagination: Pagination, setPage: boolean = true) {
       this.isLoading = true;

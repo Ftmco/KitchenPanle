@@ -119,7 +119,7 @@ export default Vue.extend({
       this.loadReports({ page: value - 1, count: pageListSize, });
     },
     searchInput() {
-      searchList(this.loadReports);
+      searchList(this.loadReports,this.search);
     },
     loadReports(pagination: Pagination, setPage: boolean = true) {
       this.isLoading = true;

@@ -131,7 +131,7 @@ export default Vue.extend({
       this.loadGroups({ page: value - 1, count: pageListSize });
     },
     searchInput() {
-      searchList(this.loadGroups);
+      searchList(this.loadGroups,this.search);
     },
     loadGroups(pagination: Pagination) {
       this.isLoading = true;

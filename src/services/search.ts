@@ -1,12 +1,10 @@
-import { defaultPage } from "@/components/models";
-
 let timeOut = 0;
 
-export const searchList = (loadFunc: Function) => {
+export const searchList = (loadFunc: Function,search:string) => {
     if (timeOut != -1) {
         clearTimeout(timeOut);
     }
     timeOut = setTimeout(() => {
-        loadFunc(defaultPage, false)
+        loadFunc({ page: 0, count: 0 }, search != "")
     }, 400);
 }

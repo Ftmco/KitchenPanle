@@ -154,7 +154,7 @@ export default Vue.extend({
       this.loadDaysFoods({ page: value - 1, count: pageListSize });
     },
     searchInput() {
-      searchList(this.loadDaysFoods);
+      searchList(this.loadDaysFoods,this.search);
     },
     loadDaysFoods(pagination: Pagination, setPage: boolean = true) {
       this.isLoading = true;
